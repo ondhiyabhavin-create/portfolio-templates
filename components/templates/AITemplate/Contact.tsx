@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -18,8 +18,6 @@ export function AIContact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const { templateConfig } = useTemplate();
-
   const { currentTemplate } = useTemplate();
   const isBwMode = currentTemplate === "ai-template-light";
 
@@ -47,28 +45,34 @@ export function AIContact() {
           <>
             <div className="absolute inset-0 bg-gradient-to-br from-[oklch(0.7_0.2_200)]/5 via-[oklch(0.65_0.25_300)]/3 to-transparent" />
             {/* Floating particles */}
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-[oklch(0.7_0.2_200)] to-[oklch(0.65_0.25_300)] opacity-30"
-                initial={{
-                  x: Math.random() * window.innerWidth,
-                  y: Math.random() * window.innerHeight,
-                  scale: 0,
-                }}
-                animate={{
-                  y: [null, Math.random() * window.innerHeight],
-                  x: [null, Math.random() * window.innerWidth],
-                  scale: [0, 1, 0],
-                  opacity: [0, 0.5, 0],
-                }}
-                transition={{
-                  duration: Math.random() * 10 + 10,
-                  repeat: Infinity,
-                  delay: Math.random() * 5,
-                }}
-              />
-            ))}
+            {typeof window !== 'undefined' && [...Array(20)].map((_, i) => {
+              const startX = Math.random() * (window.innerWidth || 1920);
+              const startY = Math.random() * (window.innerHeight || 1080);
+              const endX = Math.random() * (window.innerWidth || 1920);
+              const endY = Math.random() * (window.innerHeight || 1080);
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-[oklch(0.7_0.2_200)] to-[oklch(0.65_0.25_300)] opacity-30"
+                  initial={{
+                    x: startX,
+                    y: startY,
+                    scale: 0,
+                  }}
+                  animate={{
+                    y: endY,
+                    x: endX,
+                    scale: [0, 1, 0],
+                    opacity: [0, 0.5, 0],
+                  }}
+                  transition={{
+                    duration: Math.random() * 10 + 10,
+                    repeat: Infinity,
+                    delay: Math.random() * 5,
+                  }}
+                />
+              );
+            })}
           </>
         )}
         {isBwMode && (
@@ -194,7 +198,7 @@ export function AIContact() {
                   <Mail className={`w-6 h-6 ${isBwMode ? 'text-blue-600' : 'gradient-text'}`} />
                   <h3 className={`text-2xl font-bold ${isBwMode ? 'text-black' : 'text-white'}`}>Send a Message</h3>
                 </motion.div>
-              <form action="https://formsubmit.co/bhavinondhiya0@gmail.com" method="POST" onSubmit={handleSubmit} className="space-y-6">
+                <form action="https://formsubmit.co/bhavinondhiya0@gmail.com" method="POST" onSubmit={handleSubmit} className="space-y-6">
                 <input type="hidden" name="_captcha" value="false" />
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -317,7 +321,8 @@ export function AIContact() {
                     )}
                   </span>
                 </motion.button>
-              </form>
+                </form>
+              </div>
             </motion.div>
 
             {/* Enhanced Social Links with SVG animations */}
@@ -404,16 +409,65 @@ export function AIContact() {
                 </div>
               </motion.div>
 
-              <div className="glass rounded-2xl p-8">
-                <h3 className="text-xl font-bold mb-4 text-foreground">Availability</h3>
-                <p className="text-muted-foreground mb-4">
-                  I'm currently available for freelance projects and consulting opportunities.
-                </p>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full gradient-text animate-pulse" style={{ background: 'oklch(0.7 0.2 200)' }} />
-                  <span className="text-sm text-foreground">{PERSONAL_INFO.freelance} for new projects</span>
+              <motion.div 
+                className={`${isBwMode ? 'bg-white/95 border-2 border-black/10' : 'glass'} rounded-2xl p-8 lg:p-10 relative overflow-hidden`}
+                initial={{ opacity: 0, y: 50 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 1.2 }}
+              >
+                {/* Animated SVG decoration */}
+                <motion.svg
+                  className="absolute bottom-0 right-0 w-24 h-24 opacity-5"
+                  initial={{ scale: 0, rotate: 0 }}
+                  animate={isInView ? { scale: 1, rotate: 360 } : {}}
+                  transition={{ delay: 1.3, duration: 2 }}
+                >
+                  <circle cx="48" cy="48" r="40" fill="none" stroke={isBwMode ? "#10b981" : "oklch(0.7 0.2 200)"} strokeWidth="2" strokeDasharray="5,5" />
+                </motion.svg>
+                
+                <div className="relative z-10">
+                  <motion.div
+                    className="flex items-center gap-3 mb-4"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ delay: 1.4 }}
+                  >
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <div className={`w-4 h-4 rounded-full ${isBwMode ? 'bg-green-500' : 'bg-[oklch(0.7_0.2_200)]'}`} />
+                    </motion.div>
+                    <h3 className={`text-xl font-bold ${isBwMode ? 'text-black' : 'text-foreground'}`}>Availability</h3>
+                  </motion.div>
+                  
+                  <motion.p 
+                    className={`mb-6 ${isBwMode ? 'text-black/70' : 'text-muted-foreground'}`}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ delay: 1.5 }}
+                  >
+                    I'm currently available for freelance projects and consulting opportunities.
+                  </motion.p>
+                  
+                  <motion.div 
+                    className={`flex items-center gap-3 p-4 rounded-lg ${isBwMode ? 'bg-green-50 border-2 border-green-200' : 'bg-[oklch(0.7_0.2_200)]/10 border border-[oklch(0.7_0.2_200)]/20'}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: 1.6 }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <motion.div
+                      className={`w-3 h-3 rounded-full ${isBwMode ? 'bg-green-500' : 'bg-[oklch(0.7_0.2_200)]'}`}
+                      animate={{ opacity: [1, 0.5, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className={`text-sm font-semibold ${isBwMode ? 'text-black' : 'text-foreground'}`}>
+                      {PERSONAL_INFO.freelance} for new projects
+                    </span>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </motion.div>
