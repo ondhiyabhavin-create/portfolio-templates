@@ -24,7 +24,7 @@ export function Hero() {
       return {
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       };
-    } else if (currentTemplate === "ai-template") {
+    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
       return {
         background: "oklch(0.05 0 0)",
       };
@@ -38,7 +38,7 @@ export function Hero() {
   const getBackgroundOverlay = () => {
     if (currentTemplate === "vibrant-animated") {
       return "animated-gradient opacity-90";
-    } else if (currentTemplate === "ai-template") {
+    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
       return "bg-gradient-to-br from-cyan-900/10 via-purple-900/10 to-transparent";
     } else {
       return "bg-gradient-to-br from-orange-900/20 via-blue-900/20 to-transparent";
@@ -57,7 +57,7 @@ export function Hero() {
       <div className={`absolute inset-0 ${getBackgroundOverlay()}`} />
       
       {/* Grid Pattern for AI Template */}
-      {currentTemplate === "ai-template" && (
+      {(currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") && (
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: `linear-gradient(rgba(0, 200, 255, 0.1) 1px, transparent 1px),
                           linear-gradient(90deg, rgba(0, 200, 255, 0.1) 1px, transparent 1px)`,
@@ -78,7 +78,7 @@ export function Hero() {
             className="inline-block mb-8"
           >
             <Sparkles className={`w-16 h-16 drop-shadow-lg animate-float ${
-              currentTemplate === "ai-template" ? "text-cyan-400" : "text-white"
+              (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")? "text-cyan-400" : "text-white"
             }`} />
           </motion.div>
 
@@ -90,7 +90,7 @@ export function Hero() {
             className="text-6xl md:text-8xl lg:text-9xl font-black mb-6 leading-tight tracking-tight"
           >
             <span className={`block mb-2 drop-shadow-2xl ${
-              currentTemplate === "ai-template" 
+              (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")
                 ? "text-white neon-glow" 
                 : currentTemplate === "vibrant-animated"
                 ? "text-white neon-glow"
@@ -100,13 +100,13 @@ export function Hero() {
             </span>
             <span className={`block text-7xl md:text-8xl lg:text-9xl font-black drop-shadow-2xl ${
               currentTemplate === "vibrant-animated" ? "gradient-text-2" :
-              currentTemplate === "ai-template" ? "gradient-text" :
+              (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")? "gradient-text" :
               "text-orange-400"
             }`}>
               {PERSONAL_INFO.name.split(' ')[0]}
             </span>
             <span className={`block text-4xl md:text-5xl mt-4 font-bold ${
-              currentTemplate === "ai-template" ? "text-white/90" : "text-white/90"
+              (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")? "text-white/90" : "text-white/90"
             }`}>
               Software Developer
             </span>
@@ -128,7 +128,7 @@ export function Hero() {
             initial="hidden"
             animate="visible"
             className={`text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-lg ${
-              currentTemplate === "ai-template" ? "text-white/80" : "text-white/90"
+              (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")? "text-white/80" : "text-white/90"
             }`}
           >
             {TAGLINE}
@@ -147,7 +147,7 @@ export function Hero() {
               className={`group relative px-10 py-5 text-white font-bold rounded-full overflow-hidden shadow-2xl hover-lift ${
                 currentTemplate === "vibrant-animated" 
                   ? "bg-gradient-to-r from-pink-500 to-purple-600"
-                  : currentTemplate === "ai-template"
+                  : (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")
                   ? "bg-gradient-to-r from-cyan-500 to-purple-600"
                   : "bg-gradient-to-r from-orange-500 to-red-600"
               }`}
@@ -161,7 +161,7 @@ export function Hero() {
                 className={`absolute inset-0 shimmer ${
                   currentTemplate === "vibrant-animated"
                     ? "bg-gradient-to-r from-purple-600 to-pink-500"
-                    : currentTemplate === "ai-template"
+                    : (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")
                     ? "bg-gradient-to-r from-purple-600 to-cyan-500"
                     : "bg-gradient-to-r from-red-600 to-orange-500"
                 }`}
@@ -194,7 +194,7 @@ export function Hero() {
               transition={{ duration: 2, repeat: Infinity }}
             >
               <ArrowDown className={`w-8 h-8 drop-shadow-lg ${
-                currentTemplate === "ai-template" ? "text-cyan-400" : "text-white"
+                (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")? "text-cyan-400" : "text-white"
               }`} />
             </motion.a>
           </motion.div>
@@ -221,7 +221,7 @@ function AnimatedRole({ roles, currentIndex, template }: { roles: string[]; curr
         >
           <span className={`text-2xl md:text-3xl font-bold drop-shadow-lg ${
             template === "vibrant-animated" ? "text-white" :
-            template === "ai-template" ? "text-cyan-400" : "text-orange-400"
+            (template === "ai-template-dark" || template === "ai-template-light") ? "text-cyan-400" : "text-orange-400"
           }`}>
             {role}
           </span>

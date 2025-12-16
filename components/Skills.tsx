@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import { SKILLS } from "@/lib/constants";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { useTemplate } from "@/context/TemplateContext";
@@ -15,6 +16,7 @@ export function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { currentTemplate } = useTemplate();
+  const isBwMode = currentTemplate === "ai-template-light";
 
   const filteredSkills =
     selectedCategory === "All"
@@ -22,7 +24,7 @@ export function Skills() {
       : SKILLS.filter((skill) => skill.category === selectedCategory);
 
   return (
-    <section id="skills" ref={ref} className="relative py-32 overflow-hidden bg-gradient-to-b from-pink-900/50 via-purple-900/50 to-blue-900/50">
+    <section id="skills" ref={ref} className={`relative py-32 overflow-hidden ${isBwMode ? 'bg-white' : 'bg-gradient-to-b from-pink-900/50 via-purple-900/50 to-blue-900/50'}`}>
       <div className="container mx-auto px-6">
         <motion.div
           variants={staggerContainer}
@@ -33,7 +35,7 @@ export function Skills() {
           {/* Section Header */}
           <motion.div variants={fadeInUp} className="text-center mb-16">
             <h2 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-4 ${
-              currentTemplate === "ai-template" 
+              currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light" 
                 ? "gradient-text" 
                 : currentTemplate === "mirror-display"
                 ? "gradient-text ai-glow"
@@ -45,7 +47,7 @@ export function Skills() {
             }`}>
               {currentTemplate === "brutalist-tech" ? "SKILLS & EXPERTISE" : "Skills & Expertise"}
             </h2>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto">
+            <p className={`text-xl max-w-2xl mx-auto ${isBwMode ? 'text-black/80' : 'text-white/80'}`}>
               Technologies and tools I work with
             </p>
           </motion.div>
@@ -61,8 +63,12 @@ export function Skills() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-3 rounded-full font-bold transition-all ${
                   selectedCategory === category
-                    ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl scale-110"
-                    : "glass text-white/80 hover:text-white hover:scale-105"
+                    ? isBwMode
+                      ? "bg-black text-white shadow-2xl scale-110"
+                      : "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-2xl scale-110"
+                    : isBwMode
+                      ? "glass text-black/80 hover:text-black hover:scale-105 border border-black/20"
+                      : "glass text-white/80 hover:text-white hover:scale-105"
                 }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -94,16 +100,54 @@ export function Skills() {
                   transition={{ delay: index * 0.05 }}
                 >
                   <div className="flex items-start gap-4 mb-4">
-                    <motion.span
-                      className="text-4xl"
-                      whileHover={{ rotate: 360, scale: 1.2 }}
+                    <motion.div
+                      className={`relative w-14 h-14 flex-shrink-0 flex items-center justify-center rounded-lg p-2 border ${
+                        isBwMode
+                          ? "bg-gray-100 border-black/20"
+                          : "bg-white/5 border-white/10"
+                      }`}
+                      whileHover={{ rotate: 360, scale: 1.15 }}
                       transition={{ duration: 0.5 }}
                     >
-                      {skill.icon}
-                    </motion.span>
+                      {skill.icon.startsWith("http") || skill.icon.startsWith("/") ? (
+                        <img
+                          src={skill.icon}
+                          alt={skill.name}
+                          className="w-full h-full object-contain"
+                          style={{
+                            // Keep original colored logos in both modes - they're more visible
+                            filter: "none",
+                            width: "100%",
+                            height: "100%",
+                            maxWidth: "40px",
+                            maxHeight: "40px",
+                            // Zoom in AWS Lex image to match other logo sizes
+                            transform: skill.icon === "/aws-lex.jpg" ? "scale(1.5)" : "none"
+                          }}
+                          loading="lazy"
+                          onError={(e) => {
+                            // Fallback to emoji
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const fallback = document.createElement('span');
+                            fallback.className = 'text-3xl';
+                            fallback.textContent = '💼';
+                            if (target.parentElement && !target.parentElement.querySelector('span.text-3xl')) {
+                              target.parentElement.appendChild(fallback);
+                            }
+                          }}
+                        />
+                      ) : (
+                        <span className="text-4xl">{skill.icon}</span>
+                      )}
+                    </motion.div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white mb-1">{skill.name}</h3>
-                      <span className="text-sm font-semibold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                      <h3 className={`text-xl font-bold mb-1 ${isBwMode ? 'text-black' : 'text-white'}`}>{skill.name}</h3>
+                      <span className={`text-sm font-semibold ${
+                        isBwMode
+                          ? "text-black/70"
+                          : "bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent"
+                      }`}>
                         {skill.category}
                       </span>
                     </div>
@@ -111,7 +155,7 @@ export function Skills() {
                   <motion.p
                     initial={{ opacity: 0, height: 0 }}
                     whileHover={{ opacity: 1, height: "auto" }}
-                    className="text-sm text-white/80 overflow-hidden"
+                    className={`text-sm overflow-hidden ${isBwMode ? 'text-black/70' : 'text-white/80'}`}
                   >
                     {skill.description}
                   </motion.p>

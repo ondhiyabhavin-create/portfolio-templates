@@ -28,7 +28,7 @@ export function TemplateSwitcher() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const currentConfig = TEMPLATES[currentTemplate] || TEMPLATES["ai-template"];
+  const currentConfig = TEMPLATES[currentTemplate] || TEMPLATES["ai-template-light"];
 
   // Get button styling based on template
   const getButtonClass = () => {

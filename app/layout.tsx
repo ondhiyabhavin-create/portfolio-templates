@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { TemplateProvider } from "@/context/TemplateContext";
@@ -26,10 +27,42 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
+        <Script
+          id="template-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('portfolio-template');
+                  // Default to light template if not set
+                  if (!saved || saved === 'ai-template') {
+                    saved = 'ai-template-light';
+                    localStorage.setItem('portfolio-template', 'ai-template-light');
+                  }
+                  
+                  // Set background based on template
+                  if (saved === 'ai-template-light') {
+                    document.documentElement.style.backgroundColor = '#ffffff';
+                    document.body.style.backgroundColor = '#ffffff';
+                  } else if (saved === 'ai-template-dark') {
+                    document.documentElement.style.backgroundColor = 'oklch(0.05 0 0)';
+                    document.body.style.backgroundColor = 'oklch(0.05 0 0)';
+                  }
+                } catch (e) {
+                  // If localStorage fails, default to light
+                  document.documentElement.style.backgroundColor = '#ffffff';
+                  document.body.style.backgroundColor = '#ffffff';
+                }
+              })();
+            `,
+          }}
+        />
         <TemplateProvider>
           <SmoothScroll>
             {children}

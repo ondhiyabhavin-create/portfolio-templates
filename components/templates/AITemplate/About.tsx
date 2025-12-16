@@ -2,14 +2,17 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Code2, Palette, Zap } from "lucide-react";
 import { fadeInUp, slideInLeft, slideInRight, staggerContainer, textReveal } from "@/lib/animations";
 import { PERSONAL_INFO, ABOUT_TEXT } from "@/lib/constants";
+import { useTemplate } from "@/context/TemplateContext";
 
 export function AIAbout() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { currentTemplate } = useTemplate();
+  const isBwMode = currentTemplate === "ai-template-light";
 
   const values = [
     {
@@ -84,19 +87,37 @@ export function AIAbout() {
               <div className="glass rounded-2xl p-8 aspect-square flex items-center justify-center overflow-hidden">
                 <svg
                   viewBox="0 0 400 400"
-                  className="w-full h-full"
+                  className="w-full h-full about-svg"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <linearGradient id="ai-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="oklch(0.7 0.2 200)" />
-                      <stop offset="50%" stopColor="oklch(0.65 0.25 250)" />
-                      <stop offset="100%" stopColor="oklch(0.65 0.25 300)" />
-                    </linearGradient>
-                    <linearGradient id="ai-gradient-2" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="oklch(0.7 0.2 200)" stopOpacity="0.3" />
-                      <stop offset="100%" stopColor="oklch(0.65 0.25 300)" stopOpacity="0.1" />
-                    </linearGradient>
+                    {isBwMode ? (
+                      <>
+                        {/* Light mode gradients - use blue/purple colors for visibility */}
+                        <linearGradient id="ai-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#3b82f6" />
+                          <stop offset="50%" stopColor="#8b5cf6" />
+                          <stop offset="100%" stopColor="#a855f7" />
+                        </linearGradient>
+                        <linearGradient id="ai-gradient-2" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.2" />
+                          <stop offset="100%" stopColor="#a855f7" stopOpacity="0.1" />
+                        </linearGradient>
+                      </>
+                    ) : (
+                      <>
+                        {/* Dark mode gradients - original oklch colors */}
+                        <linearGradient id="ai-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="oklch(0.7 0.2 200)" />
+                          <stop offset="50%" stopColor="oklch(0.65 0.25 250)" />
+                          <stop offset="100%" stopColor="oklch(0.65 0.25 300)" />
+                        </linearGradient>
+                        <linearGradient id="ai-gradient-2" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="oklch(0.7 0.2 200)" stopOpacity="0.3" />
+                          <stop offset="100%" stopColor="oklch(0.65 0.25 300)" stopOpacity="0.1" />
+                        </linearGradient>
+                      </>
+                    )}
                   </defs>
                   
                   {/* Background circles */}

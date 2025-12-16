@@ -100,7 +100,9 @@
 }
 
 /* Black & White Mode - White Background, Black Text */
-.ai-template-bw {
+.ai-template-bw,
+html.ai-template-bw,
+body.ai-template-bw {
   background: #ffffff !important;
   color: #000000 !important;
 }
@@ -108,6 +110,15 @@
 .ai-template-bw body {
   background: #ffffff !important;
   color: #000000 !important;
+}
+
+/* Ensure html and body get white background when B&W mode is active */
+html.ai-template-bw {
+  background-color: #ffffff !important;
+}
+
+body.ai-template-bw {
+  background-color: #ffffff !important;
 }
 
 .ai-template-bw section {
@@ -234,15 +245,128 @@
   color: #ffffff !important;
 }
 
-/* B&W Mode - SVG icons */
-.ai-template-bw svg {
+/* B&W Mode - Ensure buttons with bg-black have white text */
+.ai-template-bw [class*="bg-black"] {
+  color: #ffffff !important;
+}
+
+.ai-template-bw [class*="bg-black"] * {
+  color: #ffffff !important;
+}
+
+/* B&W Mode - SVG icons (but exclude About section SVG) */
+.ai-template-bw svg:not(.about-svg) {
   color: #000000 !important;
 }
 
-.ai-template-bw svg [stroke] {
+.ai-template-bw svg:not(.about-svg) [stroke] {
   stroke: #000000 !important;
 }
 
-.ai-template-bw svg [fill] {
+.ai-template-bw svg:not(.about-svg) [fill] {
   fill: #000000 !important;
+}
+
+/* B&W Mode - About section SVG should use gradients (blue/purple colors) */
+.ai-template-bw .about-svg path,
+.ai-template-bw .about-svg circle,
+.ai-template-bw .about-svg rect,
+.ai-template-bw .about-svg line,
+.ai-template-bw .about-svg polygon {
+  stroke: url(#ai-gradient) !important;
+  fill: url(#ai-gradient) !important;
+}
+
+.ai-template-bw .about-svg circle[fill="url(#ai-gradient-2)"] {
+  fill: url(#ai-gradient-2) !important;
+}
+
+/* B&W Mode - Images should have proper borders and shadows */
+.ai-template-bw img {
+  border: 2px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  background: #ffffff !important;
+}
+
+.ai-template-bw .glass-strong img,
+.ai-template-bw .glass img {
+  border: 2px solid rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+  background: #ffffff !important;
+}
+
+/* B&W Mode - Image containers should have subtle backgrounds */
+.ai-template-bw [class*="aspect-video"],
+.ai-template-bw [class*="aspect-ratio"] {
+  background: #f8f8f8 !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+/* B&W Mode - Iframe containers - make them stand out */
+.ai-template-bw iframe {
+  border: 2px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  background: #ffffff !important;
+}
+
+/* B&W Mode - Glass containers with images */
+.ai-template-bw .glass-strong {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 2px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* B&W Mode - Image gallery thumbnails */
+.ai-template-bw [class*="rounded-xl"] img,
+.ai-template-bw [class*="rounded-3xl"] img {
+  border-radius: inherit !important;
+}
+
+/* B&W Mode - Ensure iframe containers have white background */
+.ai-template-bw [class*="aspect-video"] iframe {
+  background: #ffffff !important;
+}
+
+/* B&W Mode - Skills section improvements */
+.ai-template-bw #skills {
+  background: #ffffff !important;
+}
+
+.ai-template-bw #skills .glass {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 2px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.ai-template-bw #skills .glass:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* B&W Mode - Skill logo containers */
+.ai-template-bw #skills [class*="bg-white"] {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Skill logo container styling */
+#skills img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Dark mode - Keep logos in original colors (DevIcons are colored) */
+.ai-template-full #skills img {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* B&W mode - Keep logos in original colors for visibility */
+.ai-template-bw #skills img {
+  filter: none !important;
+}
+
+/* Color mode - Keep logos colored */
+.ai-template-color #skills img {
+  filter: none !important;
 }

@@ -82,3 +82,4 @@ export const textReveal: Variants = {
   },
 };
 
+

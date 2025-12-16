@@ -16,6 +16,7 @@ import { Navigation } from "./Navigation";
 // AI Template components (original dark modern)
 import { AIHero } from "./templates/AITemplate/Hero";
 import { AIAbout } from "./templates/AITemplate/About";
+import { AIProjects } from "./templates/AITemplate/Projects";
 import { AIContact } from "./templates/AITemplate/Contact";
 
 // Mirror Display Template components
@@ -37,14 +38,14 @@ export function TemplateRenderer() {
   const { currentTemplate } = useTemplate();
 
   // Render different component sets based on template
-  if (currentTemplate === "ai-template") {
+  if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
     return (
       <>
         <Navigation />
         <AIHero />
         <AIAbout />
         <Skills />
-        <Projects />
+        <AIProjects />
         <Experience />
         <AIInteraction />
         <AIContact />

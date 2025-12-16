@@ -12,7 +12,7 @@ interface TemplateContextType {
 const TemplateContext = createContext<TemplateContextType | undefined>(undefined);
 
 export function TemplateProvider({ children }: { children: React.ReactNode }) {
-  const [currentTemplate, setCurrentTemplate] = useState<TemplateType>("ai-template");
+  const [currentTemplate, setCurrentTemplate] = useState<TemplateType>("ai-template-light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -40,10 +40,10 @@ export function TemplateProvider({ children }: { children: React.ReactNode }) {
     const main = document.querySelector("main");
     
     // Remove all template classes
-    body.classList.remove("vibrant-template", "ai-template-full", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
-    root.classList.remove("vibrant-template", "ai-template-full", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
+    body.classList.remove("vibrant-template", "ai-template-full", "ai-template-bw", "ai-template-color", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
+    root.classList.remove("vibrant-template", "ai-template-full", "ai-template-bw", "ai-template-color", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
     if (main) {
-      main.classList.remove("vibrant-template", "ai-template-full", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
+      main.classList.remove("vibrant-template", "ai-template-full", "ai-template-bw", "ai-template-color", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
     }
     
     // Remove inline styles
@@ -60,15 +60,24 @@ export function TemplateProvider({ children }: { children: React.ReactNode }) {
       root.style.setProperty("--template-secondary", "#4ecdc4");
       root.style.setProperty("--template-accent", "#ffe66d");
       root.style.setProperty("--template-bg", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)");
-    } else if (template === "ai-template") {
-      body.className = "ai-template-full";
+    } else if (template === "ai-template-dark") {
+      body.className = "ai-template-full ai-template-color";
       body.style.background = "oklch(0.05 0 0)";
       body.style.color = "oklch(0.98 0 0)";
-      root.className = "ai-template-full";
+      root.className = "ai-template-full ai-template-color";
       root.style.setProperty("--template-primary", "oklch(0.7 0.2 200)");
       root.style.setProperty("--template-secondary", "oklch(0.65 0.25 250)");
       root.style.setProperty("--template-accent", "oklch(0.65 0.25 300)");
       root.style.setProperty("--template-bg", "oklch(0.05 0 0)");
+    } else if (template === "ai-template-light") {
+      body.className = "ai-template-full ai-template-bw";
+      body.style.background = "#ffffff";
+      body.style.color = "#000000";
+      root.className = "ai-template-full ai-template-bw";
+      root.style.setProperty("--template-primary", "#3b82f6");
+      root.style.setProperty("--template-secondary", "#8b5cf6");
+      root.style.setProperty("--template-accent", "#a855f7");
+      root.style.setProperty("--template-bg", "#ffffff");
     } else if (template === "mirror-display") {
       body.className = "mirror-display";
       body.style.background = "linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)";

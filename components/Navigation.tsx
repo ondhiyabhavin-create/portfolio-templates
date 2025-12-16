@@ -5,7 +5,6 @@ import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-mo
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TemplateSwitcher } from "./TemplateSwitcher";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { useTemplate } from "@/context/TemplateContext";
 
 const navItems = [
@@ -126,7 +125,7 @@ export function Navigation() {
         <motion.a
           href="#hero"
           className={`text-2xl font-black ${
-            currentTemplate === "ai-template" ? "gradient-text" : 
+            currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light" ? "gradient-text" : 
             currentTemplate === "mirror-display" ? "gradient-text ai-glow" :
             currentTemplate === "brutalist-tech" ? "uppercase text-black font-mono" :
             currentTemplate === "soft-creative" ? "font-light text-[#2d2d2d]" :
@@ -151,14 +150,12 @@ export function Navigation() {
             />
           ))}
           <div className="flex items-center gap-3">
-            <ColorModeSwitcher />
             <TemplateSwitcher />
           </div>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-4">
-          <ColorModeSwitcher />
           <TemplateSwitcher />
           <button
             className="text-white"

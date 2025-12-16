@@ -17,7 +17,7 @@ export function About() {
   const getSectionBg = () => {
     if (currentTemplate === "vibrant-animated") {
       return "bg-gradient-to-b from-purple-900/50 via-blue-900/50 to-pink-900/50";
-    } else if (currentTemplate === "ai-template") {
+    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
       return "bg-gradient-to-b from-cyan-950/30 via-purple-950/30 to-transparent";
     } else {
       return "bg-gradient-to-b from-orange-950/30 via-blue-950/30 to-transparent";
@@ -27,7 +27,7 @@ export function About() {
   const getGradientText = () => {
     if (currentTemplate === "vibrant-animated") {
       return "gradient-text-2";
-    } else if (currentTemplate === "ai-template") {
+    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
       return "gradient-text";
     } else {
       return "text-orange-400";
