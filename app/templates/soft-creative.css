@@ -1,0 +1,127 @@
+/* Soft Creative Template - Calm, Artistic, Handcrafted */
+
+.soft-creative {
+  background: #faf8f5;
+  color: #3d3d3d;
+  font-family: 'Georgia', serif;
+}
+
+.soft-creative body {
+  background: #faf8f5 !important;
+  color: #3d3d3d !important;
+}
+
+/* Rounded, organic shapes */
+.soft-creative * {
+  border-radius: 24px;
+}
+
+.soft-creative .soft-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  box-shadow: 0 8px 32px rgba(212, 165, 116, 0.1);
+  padding: 2.5rem;
+}
+
+/* Pastel colors */
+.soft-creative .soft-accent {
+  background: linear-gradient(135deg, #f5e6d3, #d4a574);
+  color: #3d3d3d;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+}
+
+/* Gentle typography */
+.soft-creative h1,
+.soft-creative h2,
+.soft-creative h3 {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: #2d2d2d;
+}
+
+.soft-creative h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 300;
+}
+
+.soft-creative h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 350;
+}
+
+/* Organic animations */
+@keyframes gentle-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.soft-creative .gentle-fade {
+  animation: gentle-fade 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Soft transitions */
+.soft-creative * {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Airy spacing */
+.soft-creative section {
+  padding: 6rem 0;
+}
+
+.soft-creative .container {
+  max-width: 1200px;
+}
+
+/* Handcrafted feel */
+.soft-creative .hand-drawn {
+  border: 2px solid rgba(212, 165, 116, 0.3);
+  border-radius: 50px;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.soft-creative .text-foreground {
+  color: #2d2d2d;
+}
+
+.soft-creative .text-muted-foreground {
+  color: #8b7355;
+}
+
+.soft-creative input,
+.soft-creative textarea {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(212, 165, 116, 0.3);
+  color: #3d3d3d;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  font-family: 'Georgia', serif;
+}
+
+.soft-creative input:focus,
+.soft-creative textarea:focus {
+  outline: none;
+  border-color: #d4a574;
+  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+}
+
+/* Decorative elements */
+.soft-creative .decorative-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 165, 116, 0.2), transparent);
+  position: absolute;
+  z-index: -1;
+}
+

@@ -1,0 +1,248 @@
+/* AI Template - Complete Dark Modern Theme */
+/* This is the original premium dark template with glassmorphism */
+
+.ai-template-full {
+  background: oklch(0.05 0 0);
+  color: oklch(0.98 0 0);
+}
+
+.ai-template-full body {
+  background: oklch(0.05 0 0) !important;
+  color: oklch(0.98 0 0) !important;
+}
+
+.ai-template-full .glass {
+  background: oklch(0.08 0 0 / 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid oklch(0.15 0 0);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.ai-template-full .glass-strong {
+  background: oklch(0.1 0 0 / 0.8);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid oklch(1 0 0 / 0.1);
+}
+
+.ai-template-full section {
+  background: transparent !important;
+  position: relative;
+  z-index: 10;
+}
+
+.ai-template-full main {
+  position: relative;
+  z-index: 10;
+}
+
+.ai-template-full .container {
+  position: relative;
+  z-index: 20;
+}
+
+.ai-template-full .gradient-text {
+  background: linear-gradient(135deg, oklch(0.7 0.2 200), oklch(0.65 0.25 250), oklch(0.65 0.25 300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Apply gradient to SVG icons when using gradient-text class */
+.ai-template-full .gradient-text svg,
+.ai-template-full svg.gradient-text {
+  fill: url(#gradient-text);
+}
+
+.ai-template-full .gradient-text svg path,
+.ai-template-full svg.gradient-text path {
+  fill: oklch(0.7 0.2 200);
+  stroke: oklch(0.7 0.2 200);
+}
+
+.ai-template-full .text-muted-foreground {
+  color: oklch(0.65 0 0);
+}
+
+.ai-template-full .border-border {
+  border-color: oklch(0.15 0 0);
+}
+
+.ai-template-full .text-foreground {
+  color: oklch(0.98 0 0);
+}
+
+.ai-template-full input,
+.ai-template-full textarea {
+  color: oklch(0.98 0 0) !important;
+  background: oklch(0.08 0 0 / 0.6) !important;
+}
+
+.ai-template-full input::placeholder,
+.ai-template-full textarea::placeholder {
+  color: oklch(0.5 0 0) !important;
+}
+
+.ai-template-full label {
+  color: oklch(0.98 0 0) !important;
+}
+
+.ai-template-full h1,
+.ai-template-full h2,
+.ai-template-full h3 {
+  color: oklch(0.98 0 0);
+}
+
+.ai-template-full p {
+  color: oklch(0.85 0 0);
+}
+
+/* Black & White Mode - White Background, Black Text */
+.ai-template-bw {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.ai-template-bw body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.ai-template-bw section {
+  background: transparent !important;
+}
+
+/* B&W Mode - Grid lines dark gray on white */
+.ai-template-bw body::before {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px) !important;
+  opacity: 1 !important;
+}
+
+.ai-template-bw .ai-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px) !important;
+  opacity: 1 !important;
+}
+
+/* B&W Mode - Glass effects for white background */
+.ai-template-bw .glass {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.ai-template-bw .glass-strong {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+/* B&W Mode - White text becomes black */
+.ai-template-bw .text-white,
+.ai-template-bw .text-white\/80,
+.ai-template-bw .text-white\/90 {
+  color: #000000 !important;
+}
+
+.ai-template-bw h1,
+.ai-template-bw h2,
+.ai-template-bw h3 {
+  color: #000000 !important;
+}
+
+.ai-template-bw p {
+  color: #333333 !important;
+}
+
+.ai-template-bw span:not(.gradient-text) {
+  color: inherit !important;
+}
+
+.ai-template-bw .text-foreground {
+  color: #000000 !important;
+}
+
+.ai-template-bw .text-muted-foreground {
+  color: #666666 !important;
+}
+
+/* B&W Mode - Inputs and form elements */
+.ai-template-bw input,
+.ai-template-bw textarea {
+  color: #000000 !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.ai-template-bw input:focus,
+.ai-template-bw textarea:focus {
+  border-color: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ai-template-bw input::placeholder,
+.ai-template-bw textarea::placeholder {
+  color: #999999 !important;
+}
+
+.ai-template-bw label {
+  color: #000000 !important;
+}
+
+/* B&W Mode - Background gradients become subtle/transparent */
+.ai-template-bw .ai-bg-gradient {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.ai-template-bw .ai-radial-gradient {
+  background: transparent !important;
+}
+
+.ai-template-bw [class*="bg-gradient"]:not(.gradient-text) {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* B&W Mode - Buttons and links */
+.ai-template-bw a {
+  color: #000000 !important;
+}
+
+.ai-template-bw button {
+  color: #000000 !important;
+}
+
+/* B&W Mode - Keep the same blue/purple gradient colors */
+.ai-template-bw .gradient-text {
+  background: linear-gradient(135deg, oklch(0.7 0.2 200), oklch(0.65 0.25 250), oklch(0.65 0.25 300)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* B&W Mode - Buttons with gradients */
+.ai-template-bw [class*="bg-gradient-to-r"]:not(.gradient-text) {
+  background: linear-gradient(to right, #000000, #333333) !important;
+  color: #ffffff !important;
+}
+
+/* B&W Mode - SVG icons */
+.ai-template-bw svg {
+  color: #000000 !important;
+}
+
+.ai-template-bw svg [stroke] {
+  stroke: #000000 !important;
+}
+
+.ai-template-bw svg [fill] {
+  fill: #000000 !important;
+}

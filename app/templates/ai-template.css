@@ -1,0 +1,39 @@
+/* AI Template - Premium Dark Modern Theme */
+.ai-template {
+  background: oklch(0.05 0 0);
+  color: oklch(0.98 0 0);
+}
+
+.ai-template .glass {
+  background: oklch(0.08 0 0 / 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid oklch(0.15 0 0);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.ai-template .glass-strong {
+  background: oklch(0.1 0 0 / 0.8);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid oklch(1 0 0 / 0.1);
+}
+
+.ai-template .gradient-text {
+  background: linear-gradient(135deg, oklch(0.7 0.2 200), oklch(0.65 0.25 250), oklch(0.65 0.25 300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ai-template section {
+  background: transparent;
+}
+
+.ai-template .neon-glow {
+  text-shadow: 
+    0 0 10px oklch(0.7 0.2 200 / 0.5),
+    0 0 20px oklch(0.7 0.2 200 / 0.3),
+    0 0 30px oklch(0.7 0.2 200 / 0.2);
+}
+

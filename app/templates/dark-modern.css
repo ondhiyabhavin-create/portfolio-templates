@@ -1,0 +1,18 @@
+/* Dark Modern Template Styles */
+.dark-modern-template {
+  background: oklch(0.05 0 0);
+  color: oklch(0.98 0 0);
+}
+
+.dark-modern-template .glass {
+  background: oklch(0.08 0 0 / 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid oklch(0.15 0 0);
+}
+
+.dark-modern-template .gradient-text {
+  background: linear-gradient(135deg, oklch(0.7 0.2 200), oklch(0.65 0.25 250), oklch(0.65 0.25 300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

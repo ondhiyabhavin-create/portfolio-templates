@@ -1,0 +1,117 @@
+/* Brutalist Tech Template - Raw, Bold, High-Contrast */
+
+.brutalist-tech {
+  background: #ffffff;
+  color: #000000;
+  font-family: 'Courier New', monospace;
+}
+
+.brutalist-tech body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Hard edges, no rounded corners */
+.brutalist-tech * {
+  border-radius: 0 !important;
+}
+
+/* High contrast borders */
+.brutalist-tech .brutal-border {
+  border: 4px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.brutalist-tech .brutal-card {
+  background: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0px #000000;
+  padding: 2rem;
+}
+
+/* Sharp typography */
+.brutalist-tech h1,
+.brutalist-tech h2,
+.brutalist-tech h3 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.brutalist-tech h1 {
+  font-size: clamp(3rem, 8vw, 8rem);
+}
+
+.brutalist-tech h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+/* Hard transitions */
+.brutalist-tech * {
+  transition: all 0.1s linear;
+}
+
+/* Snap animations */
+@keyframes snap-in {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.brutalist-tech .snap-in {
+  animation: snap-in 0.3s linear;
+}
+
+/* Grid system */
+.brutalist-tech .brutal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  border: 2px solid #000000;
+  padding: 2rem;
+}
+
+/* Accent colors */
+.brutalist-tech .brutal-accent {
+  background: #ff0000;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: 2px solid #000000;
+}
+
+.brutalist-tech .text-foreground {
+  color: #000000;
+}
+
+.brutalist-tech .text-muted-foreground {
+  color: #666666;
+}
+
+.brutalist-tech input,
+.brutalist-tech textarea {
+  background: #ffffff;
+  border: 3px solid #000000;
+  color: #000000;
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+}
+
+.brutalist-tech input:focus,
+.brutalist-tech textarea:focus {
+  outline: none;
+  box-shadow: 4px 4px 0px #ff0000;
+}
+
+/* Section dividers */
+.brutalist-tech section {
+  border-top: 4px solid #000000;
+  border-bottom: 4px solid #000000;
+  padding: 4rem 0;
+}
+
