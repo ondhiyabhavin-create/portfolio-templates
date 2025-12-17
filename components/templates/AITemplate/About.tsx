@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import { Code2, Palette, Zap } from "lucide-react";
+import { useRef } from "react";
+import { Code2, Palette, Zap, Sparkles, Heart, Rocket, Coffee, Code, Server, Brain, Cloud, Globe } from "lucide-react";
 import { fadeInUp, slideInLeft, slideInRight, staggerContainer, textReveal } from "@/lib/animations";
 import { PERSONAL_INFO, ABOUT_TEXT } from "@/lib/constants";
 import { useTemplate } from "@/context/TemplateContext";
@@ -13,6 +13,33 @@ export function AIAbout() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { currentTemplate } = useTemplate();
   const isBwMode = currentTemplate === "ai-template-light";
+
+  const techStacks = {
+    frontend: {
+      icon: Code,
+      title: "Frontend",
+      technologies: ["React", "Next.js", "Vue.js", "JavaScript", "TypeScript"],
+      color: isBwMode ? "blue" : "cyan",
+    },
+    backend: {
+      icon: Server,
+      title: "Backend",
+      technologies: ["Node.js", "Express", "Python"],
+      color: isBwMode ? "purple" : "purple",
+    },
+    ai: {
+      icon: Brain,
+      title: "AI/ML",
+      technologies: ["Agentic AI", "RAG Pipeline", "Langflow", "Langchain"],
+      color: isBwMode ? "pink" : "pink",
+    },
+    cloud: {
+      icon: Cloud,
+      title: "Cloud & Deployment",
+      technologies: ["AWS", "Docker", "Vercel", "Hostinger"],
+      color: isBwMode ? "green" : "emerald",
+    },
+  };
 
   const values = [
     {
@@ -36,55 +63,203 @@ export function AIAbout() {
     <section
       id="about"
       ref={ref}
-      className="relative py-32 overflow-hidden"
+      className={`relative py-32 overflow-hidden ${isBwMode ? 'bg-gradient-to-b from-blue-50/30 via-white to-purple-50/30' : ''}`}
     >
-      <div className="container mx-auto px-6">
+      {/* Soothing background decoration for light mode */}
+      {isBwMode && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: Math.random() * 200 + 50,
+                height: Math.random() * 200 + 50,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                background: `radial-gradient(circle, rgba(59, 130, 246, ${0.03 + Math.random() * 0.02}) 0%, transparent 70%)`,
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           className="max-w-6xl mx-auto"
         >
-          {/* Section Header */}
-          <motion.div variants={fadeInUp} className="text-center mb-16">
+          {/* Enhanced Section Header */}
+          <motion.div variants={fadeInUp} className="text-center mb-20">
+            <motion.div
+              className="inline-flex items-center justify-center mb-6"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={isInView ? { scale: 1, rotate: 0 } : {}}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            >
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute"
+              >
+                <Sparkles className={`w-12 h-12 ${isBwMode ? 'text-blue-400' : 'text-[oklch(0.7_0.2_200)]'}`} />
+              </motion.div>
+              <Heart className={`w-8 h-8 relative z-10 ${isBwMode ? 'text-pink-400' : 'text-white'}`} />
+            </motion.div>
             <motion.h2
               variants={textReveal}
-              className="text-5xl md:text-6xl font-bold mb-4 gradient-text"
+              className={`text-5xl md:text-6xl lg:text-7xl font-bold mb-6 ${isBwMode ? 'text-black' : 'gradient-text'}`}
             >
               About Me
             </motion.h2>
             <motion.p
               variants={fadeInUp}
-              className="text-xl text-muted-foreground max-w-2xl mx-auto"
+              className={`text-xl md:text-2xl max-w-2xl mx-auto ${isBwMode ? 'text-black/70' : 'text-muted-foreground'}`}
             >
               A passionate developer who bridges the gap between design and technology
             </motion.p>
           </motion.div>
 
-          {/* Split Layout */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-            {/* Text Content */}
+          {/* Enhanced Split Layout */}
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start mb-20">
+            {/* Left Side - Intro & Tech Stacks */}
             <motion.div variants={slideInLeft} className="space-y-6">
-              <h3 className="text-3xl font-bold mb-4 text-white">
-                I'm {PERSONAL_INFO.name} <span className="gradient-text">||</span> a <span className="gradient-text">Software Developer</span>
-              </h3>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {ABOUT_TEXT}
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                My approach combines technical excellence with creative problem-solving. I
-                believe in writing clean, maintainable code and designing interfaces that
-                users love to interact with.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                When I'm not coding, I'm exploring new technologies, contributing to open
-                source, or sharing knowledge with the developer community.
-              </p>
+              {/* Introduction Card */}
+              <motion.div
+                className={`${isBwMode ? 'bg-white/80 backdrop-blur-sm border-2 border-blue-100 shadow-lg' : 'glass'} rounded-2xl p-8 relative overflow-hidden group`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.3 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                {isBwMode && (
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/50 to-purple-100/50 rounded-bl-full opacity-50" />
+                )}
+                <div className="relative z-10">
+                  <motion.div
+                    className="flex items-center gap-3 mb-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <Rocket className={`w-6 h-6 ${isBwMode ? 'text-blue-600' : 'gradient-text'}`} />
+                    <h3 className={`text-2xl md:text-3xl font-bold ${isBwMode ? 'text-black' : 'text-white'}`}>
+                      I'm {PERSONAL_INFO.name.split(' ')[0]}
+                    </h3>
+                  </motion.div>
+                  <motion.p
+                    className={`text-lg leading-relaxed ${isBwMode ? 'text-black/80' : 'text-muted-foreground'}`}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ delay: 0.5 }}
+                  >
+                    {ABOUT_TEXT}
+                  </motion.p>
+                </div>
+              </motion.div>
+
+              {/* Tech Stack Grid */}
+              <motion.div
+                className={`${isBwMode ? 'bg-white/80 backdrop-blur-sm border-2 border-purple-100 shadow-lg' : 'glass'} rounded-2xl p-8 relative overflow-hidden`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.6 }}
+              >
+                {isBwMode && (
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100/50 to-pink-100/50 rounded-bl-full opacity-50" />
+                )}
+                <div className="relative z-10">
+                  <motion.div
+                    className="flex items-center gap-3 mb-6"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <Code2 className={`w-6 h-6 ${isBwMode ? 'text-purple-600' : 'gradient-text'}`} />
+                    <h4 className={`text-xl font-semibold ${isBwMode ? 'text-black' : 'text-white'}`}>Tech Stack</h4>
+                  </motion.div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    {Object.entries(techStacks).map(([key, stack], index) => {
+                      const colorClasses = {
+                        blue: isBwMode ? 'border-blue-200 bg-blue-50' : 'border-blue-500/30 bg-blue-500/10',
+                        purple: isBwMode ? 'border-purple-200 bg-purple-50' : 'border-purple-500/30 bg-purple-500/10',
+                        pink: isBwMode ? 'border-pink-200 bg-pink-50' : 'border-pink-500/30 bg-pink-500/10',
+                        green: isBwMode ? 'border-green-200 bg-green-50' : 'border-green-500/30 bg-green-500/10',
+                      };
+                      
+                      const iconColors = {
+                        blue: isBwMode ? 'text-blue-600' : 'text-blue-400',
+                        purple: isBwMode ? 'text-purple-600' : 'text-purple-400',
+                        pink: isBwMode ? 'text-pink-600' : 'text-pink-400',
+                        green: isBwMode ? 'text-green-600' : 'text-green-400',
+                      };
+                      
+                      return (
+                        <motion.div
+                          key={key}
+                          className={`rounded-xl p-4 border-2 ${colorClasses[stack.color as keyof typeof colorClasses]} transition-all hover:scale-105`}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                          transition={{ delay: 0.8 + index * 0.1 }}
+                        >
+                          <div className="flex items-center gap-2 mb-3">
+                            <stack.icon className={`w-5 h-5 ${iconColors[stack.color as keyof typeof iconColors]}`} />
+                            <h5 className={`font-semibold text-sm ${isBwMode ? 'text-black' : 'text-white'}`}>
+                              {stack.title}
+                            </h5>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {stack.technologies.map((tech, techIndex) => (
+                              <motion.span
+                                key={tech}
+                                className={`px-2 py-1 rounded-md text-xs font-medium ${
+                                  isBwMode
+                                    ? stack.color === 'blue' ? 'bg-blue-100 text-blue-700' :
+                                      stack.color === 'purple' ? 'bg-purple-100 text-purple-700' :
+                                      stack.color === 'pink' ? 'bg-pink-100 text-pink-700' :
+                                      'bg-green-100 text-green-700'
+                                    : 'bg-white/10 text-white/80'
+                                }`}
+                                initial={{ opacity: 0 }}
+                                animate={isInView ? { opacity: 1 } : {}}
+                                transition={{ delay: 0.9 + index * 0.1 + techIndex * 0.05 }}
+                              >
+                                {tech}
+                              </motion.span>
+                            ))}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
 
-            {/* Animated Code/Developer Illustration */}
+            {/* Enhanced Animated Code/Developer Illustration */}
             <motion.div variants={slideInRight} className="relative">
-              <div className="glass rounded-2xl p-8 aspect-square flex items-center justify-center overflow-hidden">
+              <motion.div
+                className={`${isBwMode ? 'bg-white/90 backdrop-blur-sm border-2 border-blue-100 shadow-xl' : 'glass'} rounded-2xl p-8 aspect-square flex items-center justify-center overflow-hidden relative`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                {isBwMode && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 rounded-2xl" />
+                )}
                 <svg
                   viewBox="0 0 400 400"
                   className="w-full h-full about-svg"
@@ -269,25 +444,57 @@ export function AIAbout() {
                     />
                   </motion.g>
                 </svg>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
 
-          {/* Values Grid */}
+          {/* Enhanced Values Grid with Better Cards */}
           <motion.div
             variants={staggerContainer}
-            className="grid md:grid-cols-3 gap-6"
+            className="grid md:grid-cols-3 gap-6 lg:gap-8"
           >
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
                 variants={fadeInUp}
-                className="glass rounded-xl p-6 group hover:border-[oklch(0.7_0.2_200)]/50 transition-colors"
-                whileHover={{ y: -5 }}
+                className={`${isBwMode ? 'bg-white/90 backdrop-blur-sm border-2 shadow-lg' : 'glass'} rounded-2xl p-8 group relative overflow-hidden transition-all ${
+                  isBwMode 
+                    ? index === 0 ? 'border-blue-200 hover:border-blue-400' : index === 1 ? 'border-purple-200 hover:border-purple-400' : 'border-pink-200 hover:border-pink-400'
+                    : 'hover:border-[oklch(0.7_0.2_200)]/50'
+                }`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 1.2 + index * 0.1 }}
+                whileHover={{ y: -8, scale: 1.02 }}
               >
-                <value.icon className="w-8 h-8 gradient-text mb-4" />
-                <h3 className="text-xl font-semibold mb-2 gradient-text">{value.title}</h3>
-                <p className="text-muted-foreground">{value.description}</p>
+                {/* Gradient background on hover for light mode */}
+                {isBwMode && (
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity ${
+                      index === 0 ? 'from-blue-100 to-cyan-100' : index === 1 ? 'from-purple-100 to-pink-100' : 'from-pink-100 to-orange-100'
+                    }`}
+                  />
+                )}
+                
+                <div className="relative z-10">
+                  <motion.div
+                    className={`inline-flex p-4 rounded-xl mb-4 ${
+                      isBwMode
+                        ? index === 0 ? 'bg-blue-50' : index === 1 ? 'bg-purple-50' : 'bg-pink-50'
+                        : 'bg-gradient-to-br from-[oklch(0.7_0.2_200)]/20 to-[oklch(0.65_0.25_300)]/20'
+                    }`}
+                    whileHover={{ rotate: 360, scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <value.icon className={`w-8 h-8 ${isBwMode ? index === 0 ? 'text-blue-600' : index === 1 ? 'text-purple-600' : 'text-pink-600' : 'gradient-text'}`} />
+                  </motion.div>
+                  <h3 className={`text-xl font-bold mb-3 ${isBwMode ? 'text-black' : 'gradient-text'}`}>
+                    {value.title}
+                  </h3>
+                  <p className={`leading-relaxed ${isBwMode ? 'text-black/70' : 'text-muted-foreground'}`}>
+                    {value.description}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </motion.div>

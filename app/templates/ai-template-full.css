@@ -349,6 +349,12 @@ body.ai-template-bw {
   border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
+/* Override for Services cards - ensure white background */
+.ai-template-bw #skills .service-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: inherit !important;
+}
+
 /* Skill logo container styling */
 #skills img {
   image-rendering: -webkit-optimize-contrast;

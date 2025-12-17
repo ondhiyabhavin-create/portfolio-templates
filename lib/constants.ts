@@ -614,33 +614,57 @@ export const PERSONAL_INFO = {
   resume: "/BhavinOndhiya-july-2025.pdf",
 };
 
-export const ABOUT_TEXT = `I'm enthusiastic about learning and exploring. Turning my hobby of project development into a skill, I've become proficient in Node.js, NextJS, Docker, AWS, and GraphQL. Currently advanced with MERN stack, I've worked for ${totalInternshipMonths} months as an intern and ${juniorDevMonths}+ months as a Junior Software Developer, further enriching my journey.`;
+export const ABOUT_TEXT = `I'm a passionate full-stack developer specializing in modern web technologies and AI/ML systems. With ${totalInternshipMonths} months of internship experience and ${juniorDevMonths}+ months as a Junior Software Developer, I build end-to-end solutions from development to deployment.`;
 
 export const TAGLINE = "ML and AI enthusiast, a dedicated software engineer who loves to work towards projects that make a bigger impact in society. You will also find me playing with a guitar on some days and exploring places. Learning in the process is my belief.";
 
 export const SERVICES = [
   {
     id: 1,
-    title: "Web Development",
-    description: "I can create any website using HTML, CSS, ReactJS for frontend and PHP, NodeJS in backend Along with GraphDB(NEO4j).",
+    title: "Full-Stack Web Development",
+    description: "Building modern, responsive web applications using React, Next.js, Vue.js for frontend and Node.js, Express, Python for backend. Creating scalable solutions with clean architecture and best practices.",
     icon: "🌐",
+    category: "Development",
+    color: "blue",
   },
   {
     id: 2,
-    title: "MERN Stack Development",
-    description: "Proficient in Node.js, with expertise in building scalable and performant applications using asynchronous programming, event-driven architecture, and a strong command of core modules and npm packages.",
-    icon: "🚀",
+    title: "AI/ML Integration",
+    description: "Developing intelligent applications with Agentic AI, RAG pipelines, Langflow, and Langchain. Building conversational AI chatbots with AWS Lex and integrating AI capabilities into production systems.",
+    icon: "🤖",
+    category: "AI/ML",
+    color: "purple",
   },
   {
     id: 3,
-    title: "Problem Solving",
-    description: "I would be able to provide a solution for real-life problems using in-depth concepts of Data Structure and Algorithm.",
-    icon: "💡",
+    title: "Cloud Infrastructure & Deployment",
+    description: "Deploying and managing applications on AWS (Lambda, S3, CloudWatch, Amplify, IAM), Docker containerization, and CI/CD pipelines. Hosting on Vercel with custom domain management via Hostinger.",
+    icon: "☁️",
+    category: "Cloud",
+    color: "cyan",
   },
   {
     id: 4,
-    title: "Machine Learning",
-    description: "Learning Phase is going on.",
-    icon: "🤖",
+    title: "API Development & Integration",
+    description: "Designing RESTful and GraphQL APIs with Node.js and Express. Building microservices architecture and integrating third-party services for seamless data flow.",
+    icon: "🔌",
+    category: "Backend",
+    color: "green",
+  },
+  {
+    id: 5,
+    title: "Database Design & Management",
+    description: "Working with MongoDB, PostgreSQL, and GraphDB (Neo4j) for efficient data storage and retrieval. Designing schemas and optimizing queries for performance.",
+    icon: "💾",
+    category: "Database",
+    color: "orange",
+  },
+  {
+    id: 6,
+    title: "UI/UX Design & Frontend",
+    description: "Creating beautiful, intuitive user interfaces with React, Next.js, Tailwind CSS, and Framer Motion. Focusing on responsive design, accessibility, and smooth animations.",
+    icon: "🎨",
+    category: "Frontend",
+    color: "pink",
   },
 ];
