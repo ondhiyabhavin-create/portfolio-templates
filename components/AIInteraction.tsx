@@ -24,12 +24,39 @@ interface Message {
 }
 
 // Component to render formatted message with markdown-like syntax
-function FormattedMessage({ text, isDark }: { text: string; isDark: boolean }) {
+function FormattedMessage({ text, isDark, visitLinks }: { text: string; isDark: boolean; visitLinks?: VisitLink[] }) {
   const renderFormattedText = useMemo(() => {
     if (!text) return null;
 
+    // First, clean up malformed markdown
+    let processedText = text;
+    // Fix malformed bold markdown patterns
+    processedText = processedText
+      .replace(/\*\*([^*\n]+)\*([^*\n\s])/g, '**$1**$2') // Fix **text*text -> **text**text
+      .replace(/\*\*([^*\n]+)\*$/gm, '**$1**') // Fix **text* at end of line
+      .replace(/\*\*([^*\n]+)\*\s/g, '**$1** ') // Fix **text* followed by space
+      .replace(/\*\*([^*\n]+)\*\n/g, '**$1**\n') // Fix **text* followed by newline
+      .replace(/\*\*([^*\n]+)\*([\s\n•])/g, '**$1**$2'); // Fix **text* followed by space/newline/bullet
+    
+    // CRITICAL: Split inline bullet points that are on the same line
+    // Pattern: • text • text • text (all on one line)
+    // Split each • into a new line
+    processedText = processedText.replace(/(•[^•\n]+)(\s+•)/g, '$1\n$2');
+    
+    // Also handle cases where bullet points are separated by spaces but on same line
+    // Pattern: • text. • text. • text.
+    processedText = processedText.replace(/([\.\!\?])\s+(•)/g, '$1\n$2');
+    
+    // Handle inline bullet points separated by * (but not part of **bold**)
+    // Pattern: text * bullet point * another bullet point
+    // Replace inline * with newline + bullet (but not if it's part of **bold**)
+    processedText = processedText.replace(/([^\n\*])\s+\*\s+([^\n•\-\*]+)/g, '$1\n• $2');
+    
+    // Final cleanup: remove any remaining stray single asterisks (not part of ** or bullets)
+    processedText = processedText.replace(/([^\*])\*([^\*\n•\-\s])/g, '$1$2'); // Remove stray * not part of markdown
+    
     // Split by lines to handle line breaks
-    const lines = text.split('\n');
+    const lines = processedText.split('\n');
     const elements: React.ReactNode[] = [];
 
     lines.forEach((line, lineIndex) => {
@@ -39,6 +66,7 @@ function FormattedMessage({ text, isDark }: { text: string; isDark: boolean }) {
       }
 
       // Check if it's a bullet point or numbered list
+      // Match: •, -, or * at start of line (with optional whitespace)
       const bulletMatch = line.match(/^[\s]*[•\-\*]\s+(.+)$/);
       const numberMatch = line.match(/^[\s]*(\d+)\.\s+(.+)$/);
       
@@ -117,6 +145,41 @@ function FormattedMessage({ text, isDark }: { text: string; isDark: boolean }) {
                 {match.content}
               </strong>
             );
+            
+            // Check if this bold text matches a project name and insert visit button
+            if (visitLinks) {
+              const matchingLink = visitLinks.find(link => {
+                const boldLower = match.content.toLowerCase();
+                const linkNameLower = link.name.toLowerCase();
+                // Match if bold text equals project name or contains it as whole word
+                return boldLower === linkNameLower || 
+                       boldLower.includes(linkNameLower) ||
+                       linkNameLower.includes(boldLower);
+              });
+              
+              if (matchingLink) {
+                lineElements.push(
+                  <motion.a
+                    key={`visit-bullet-${idx}-${matchingLink.name}`}
+                    href={matchingLink.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition-all shadow-md text-white hover:shadow-lg ${
+                      isDark
+                        ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500'
+                        : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+                    }`}
+                  >
+                    <span>Visit {matchingLink.name}</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </motion.a>
+                );
+              }
+            }
           }
           
           textIndex = match.end;
@@ -128,10 +191,10 @@ function FormattedMessage({ text, isDark }: { text: string; isDark: boolean }) {
         }
         
         elements.push(
-          <div key={`line-${lineIndex}`} className="flex gap-2">
-            {number && <span className={`font-semibold ${isDark ? 'text-cyan-300' : 'text-blue-600'}`}>{number}.</span>}
-            {!number && <span className={`${isDark ? 'text-cyan-300' : 'text-blue-600'}`}>•</span>}
-            <span className={`text-sm leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
+          <div key={`line-${lineIndex}`} className="flex gap-2 mb-2">
+            {number && <span className={`font-semibold flex-shrink-0 ${isDark ? 'text-cyan-300' : 'text-blue-600'}`}>{number}.</span>}
+            {!number && <span className={`flex-shrink-0 ${isDark ? 'text-cyan-300' : 'text-blue-600'}`}>•</span>}
+            <span className={`text-sm leading-relaxed flex-1 ${isDark ? 'text-white' : 'text-gray-800'}`}>
               {lineElements.length > 0 ? lineElements : content}
             </span>
           </div>
@@ -201,6 +264,41 @@ function FormattedMessage({ text, isDark }: { text: string; isDark: boolean }) {
                 {match.content}
               </strong>
             );
+            
+            // Check if this bold text matches a project name and insert visit button
+            if (visitLinks) {
+              const matchingLink = visitLinks.find(link => {
+                const boldLower = match.content.toLowerCase();
+                const linkNameLower = link.name.toLowerCase();
+                // Match if bold text equals project name or contains it as whole word
+                return boldLower === linkNameLower || 
+                       boldLower.includes(linkNameLower) ||
+                       linkNameLower.includes(boldLower);
+              });
+              
+              if (matchingLink) {
+                lineElements.push(
+                  <motion.a
+                    key={`visit-${idx}-${matchingLink.name}`}
+                    href={matchingLink.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition-all shadow-md text-white hover:shadow-lg ${
+                      isDark
+                        ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500'
+                        : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+                    }`}
+                  >
+                    <span>Visit {matchingLink.name}</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </motion.a>
+                );
+              }
+            }
           }
           
           textIndex = match.end;
@@ -218,8 +316,8 @@ function FormattedMessage({ text, isDark }: { text: string; isDark: boolean }) {
       }
     });
 
-    return <div className="space-y-2">{elements}</div>;
-  }, [text, isDark]);
+    return <div className="space-y-1">{elements}</div>;
+  }, [text, isDark, visitLinks]);
 
   return renderFormattedText;
 }
@@ -417,13 +515,13 @@ export function AIInteraction() {
   };
 
   return (
-    <section id="ai-interaction" ref={ref} className="relative py-32 overflow-hidden">
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="ai-interaction" ref={ref} className="relative py-20 md:py-32 overflow-hidden min-h-screen flex items-center">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 w-full">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="max-w-4xl mx-auto"
+          className="max-w-5xl mx-auto w-full"
         >
           {/* Section Header */}
           <motion.div variants={fadeInUp} className="text-center mb-12">
@@ -450,7 +548,7 @@ export function AIInteraction() {
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className={`rounded-3xl overflow-hidden flex flex-col h-[600px] shadow-2xl border-2 ${
+            className={`rounded-3xl overflow-hidden flex flex-col h-[70vh] min-h-[600px] max-h-[800px] shadow-2xl border-2 w-full ${
               isDark 
                 ? 'bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 backdrop-blur-2xl border-cyan-400/40 shadow-cyan-500/30' 
                 : isBwMode
@@ -590,35 +688,15 @@ export function AIInteraction() {
                         ) : (
                           <div className="space-y-3">
                             {!message.isUser ? (
-                              <FormattedMessage text={message.text || ''} isDark={isDark} />
+                              <FormattedMessage 
+                                text={message.text || ''} 
+                                isDark={isDark} 
+                                visitLinks={message.visitLinks}
+                              />
                             ) : (
                               <p className={`text-sm leading-relaxed whitespace-pre-wrap ${isDark ? 'text-white' : 'text-gray-800'}`}>
                                 {message.text || ''}
                               </p>
-                            )}
-                            {message.visitLinks && message.visitLinks.length > 0 && !message.isUser && (
-                              <div className="flex flex-wrap gap-2 mt-3">
-                                {message.visitLinks.map((link, index) => (
-                                  <motion.a
-                                    key={index}
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-xs transition-all shadow-md text-white hover:shadow-lg ${
-                                      isDark || isBwMode
-                                        ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500'
-                                        : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
-                                    }`}
-                                  >
-                                    <span>Visit</span>
-                                    <ExternalLink className="w-3.5 h-3.5" />
-                                  </motion.a>
-                                ))}
-                              </div>
                             )}
                             {message.showResumeButton && !message.isUser && (
                               <motion.a

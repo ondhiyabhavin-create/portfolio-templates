@@ -7,13 +7,95 @@ import { cn } from "@/lib/utils";
 import { TemplateSwitcher } from "./TemplateSwitcher";
 import { useTemplate } from "@/context/TemplateContext";
 
+// Inline keyframes for snake animation
+const snakeKeyframes = `
+  @keyframes snakeRotate {
+    from {
+      stroke-dashoffset: 0;
+    }
+    to {
+      stroke-dashoffset: -400;
+    }
+  }
+  
+  /* Force AI Chat button to have transparent background */
+  a[href="#ai-interaction"],
+  a[href="#ai-interaction"] *,
+  a[href="#ai-interaction"] svg,
+  a[href="#ai-interaction"] rect {
+    background-color: transparent !important;
+    background: transparent !important;
+    fill: none !important;
+  }
+  
+  a[href="#ai-interaction"] {
+    color: #06b6d4 !important;
+  }
+  
+  a[href="#ai-interaction"] span {
+    color: #06b6d4 !important;
+    background: transparent !important;
+  }
+  
+  /* Ensure AI Chat snake border SVG is visible */
+  .ai-chat-snake-border {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    fill: none !important;
+  }
+  
+  /* Ensure the rect is visible with gradient stroke */
+  .ai-chat-snake-border rect {
+    stroke-width: 8 !important;
+    stroke-dasharray: 80 320 !important;
+    animation: snakeRotate 5s linear infinite !important;
+    fill: none !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Override template CSS that forces black strokes in light mode - inline styles should work but add CSS backup */
+  /* The about-svg class should exclude it from .ai-template-bw svg:not(.about-svg) [stroke] rule */
+  /* But if it still applies, this more specific rule will override it */
+  .ai-template-bw nav a[href="#ai-interaction"] .about-svg .snake-border-rect[style],
+  .ai-template-bw a[href="#ai-interaction"] .about-svg .snake-border-rect[style] {
+    /* Let inline style take precedence - don't override if inline style exists */
+    stroke-width: 8 !important;
+    stroke-dasharray: 80 320 !important;
+    animation: snakeRotate 5s linear infinite !important;
+    fill: none !important;
+  }
+  
+  /* Fallback: If inline style doesn't work, use gradient directly */
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-0"],
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-1"],
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-2"],
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-3"],
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-4"],
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-5"],
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-6"],
+  .ai-template-bw .about-svg .snake-border-rect[data-gradient-id="snakeGradient-7"] {
+    stroke: url(#snakeGradient-0) !important;
+    stroke: url(#snakeGradient-1) !important;
+    stroke: url(#snakeGradient-2) !important;
+    stroke: url(#snakeGradient-3) !important;
+    stroke: url(#snakeGradient-4) !important;
+    stroke: url(#snakeGradient-5) !important;
+    stroke: url(#snakeGradient-6) !important;
+    stroke: url(#snakeGradient-7) !important;
+  }
+`;
+
 const navItems = [
   { name: "Home", href: "#hero" },
+  { name: "AI Chat", href: "#ai-interaction", isSpecial: true },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
   { name: "Experience", href: "#experience" },
-  { name: "AI Chat", href: "#ai-interaction" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -85,7 +167,9 @@ export function Navigation() {
   const isMirrorTemplate = false;
 
   return (
-    <motion.nav
+    <>
+      <style dangerouslySetInnerHTML={{ __html: snakeKeyframes }} />
+      <motion.nav
       ref={navRef}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -154,11 +238,7 @@ export function Navigation() {
         <div className="md:hidden flex items-center gap-3">
           <TemplateSwitcher />
           <button
-            className={`p-2 ${
-              currentTemplate === "ai-template-light" 
-                ? "text-black" 
-                : "text-white"
-            }`}
+            className="p-2 text-cyan-600"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -177,25 +257,120 @@ export function Navigation() {
             className="md:hidden glass-strong border-t border-white/20"
           >
             <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={`text-base font-bold transition-colors py-2 ${
-                    currentTemplate === "ai-template-light"
-                      ? "text-black hover:text-blue-600"
-                      : "text-white hover:text-pink-400"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
+              {navItems.map((item, idx) => {
+                const isLightMode = currentTemplate === "ai-template-light";
+                const isAIChat = item.isSpecial;
+                
+                if (isAIChat) {
+                  return (
+                    <motion.a
+                      key={item.name}
+                      href={item.href}
+                      className="text-base font-bold transition-all py-2 px-3 inline-flex items-center justify-center overflow-visible"
+                      style={{
+                        color: '#06b6d4',
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        outline: 'none',
+                        textDecoration: 'none',
+                        background: 'transparent',
+                        boxShadow: 'none',
+                        position: 'relative',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      } as React.CSSProperties}
+                      onClick={() => setMobileMenuOpen(false)}
+                      whileHover={{ color: '#0891b2' }}
+                    >
+                      {/* SVG Snake Border with inline styles */}
+                      <svg
+                        className="ai-chat-snake-border about-svg"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          pointerEvents: 'none',
+                          overflow: 'visible',
+                          zIndex: 0,
+                          backgroundColor: 'transparent',
+                          background: 'transparent',
+                          display: 'block',
+                          visibility: 'visible',
+                          opacity: 1,
+                        } as React.CSSProperties}
+                        viewBox="0 0 200 60"
+                        preserveAspectRatio="none"
+                      >
+                        <defs>
+                          <linearGradient id={`snakeGradientMobile-${idx}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#06b6d4" />
+                            <stop offset="50%" stopColor="#a855f7" />
+                            <stop offset="100%" stopColor="#ec4899" />
+                          </linearGradient>
+                        </defs>
+                        <rect
+                          x="4"
+                          y="4"
+                          width="192"
+                          height="52"
+                          fill="none"
+                          stroke={`url(#snakeGradientMobile-${idx})`}
+                          strokeWidth="8"
+                          className="snake-border-rect"
+                          style={{
+                            stroke: `url(#snakeGradientMobile-${idx})`,
+                            strokeWidth: '8',
+                            strokeDasharray: '80 320',
+                            strokeDashoffset: 0,
+                            animation: 'snakeRotate 5s linear infinite',
+                            filter: 'drop-shadow(0 0 4px rgba(6, 182, 212, 0.6)) drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)) drop-shadow(0 0 12px rgba(236, 72, 153, 0.3))',
+                            fill: 'none',
+                          } as React.CSSProperties}
+                          data-gradient-id={`snakeGradientMobile-${idx}`}
+                        />
+                      </svg>
+                      
+                      {/* Text with proper z-index */}
+                      <span
+                        style={{
+                          position: 'relative',
+                          zIndex: 10,
+                          fontWeight: 'bold',
+                          whiteSpace: 'nowrap',
+                          color: '#06b6d4',
+                          backgroundColor: 'transparent',
+                          display: 'inline-block',
+                        } as React.CSSProperties}
+                      >
+                        {item.name}
+                      </span>
+                    </motion.a>
+                  );
+                }
+                
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="text-base font-bold transition-all py-2 px-3"
+                    style={{ color: '#06b6d4' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#2563eb'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#06b6d4'}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                );
+              })}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </motion.nav>
+    </>
   );
 }
 
@@ -208,7 +383,7 @@ function NavItemMirror({
   isMirrorTemplate,
   currentTemplate
 }: { 
-  item: { name: string; href: string }; 
+  item: { name: string; href: string; isSpecial?: boolean }; 
   index: number; 
   mouseX: ReturnType<typeof useMotionValue<number>>; 
   mouseY: ReturnType<typeof useMotionValue<number>>; 
@@ -291,28 +466,111 @@ function NavItemMirror({
 
   // Default behavior for other templates
   const isLightMode = currentTemplate === "ai-template-light";
+  const isAIChat = item.isSpecial;
+  
+  if (isAIChat) {
+    return (
+      <motion.a
+        key={item.name}
+        href={item.href}
+        className="text-base md:text-lg font-bold transition-all relative px-4 py-2 inline-flex items-center justify-center overflow-visible"
+        style={{
+          color: '#06b6d4',
+          backgroundColor: 'transparent',
+          border: 'none',
+          outline: 'none',
+          textDecoration: 'none',
+          background: 'transparent',
+          boxShadow: 'none',
+          position: 'relative',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        } as React.CSSProperties}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.1 }}
+        whileHover={{ y: -2, scale: 1.05, color: '#0891b2' }}
+      >
+        {/* SVG Snake Border with inline styles */}
+        <svg
+          className="ai-chat-snake-border about-svg"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            overflow: 'visible',
+            zIndex: 0,
+            backgroundColor: 'transparent',
+            background: 'transparent',
+            fill: 'none',
+          } as React.CSSProperties}
+          viewBox="0 0 200 60"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id={`snakeGradient-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#06b6d4" />
+              <stop offset="50%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#ec4899" />
+            </linearGradient>
+          </defs>
+          <rect
+            x="4"
+            y="4"
+            width="192"
+            height="52"
+            fill="none"
+            stroke={`url(#snakeGradient-${index})`}
+            strokeWidth="8"
+            className="snake-border-rect"
+            style={{
+              stroke: `url(#snakeGradient-${index})`,
+              strokeWidth: '8',
+              strokeDasharray: '80 320',
+              strokeDashoffset: 0,
+              animation: 'snakeRotate 5s linear infinite',
+              filter: 'drop-shadow(0 0 4px rgba(6, 182, 212, 0.6)) drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)) drop-shadow(0 0 12px rgba(236, 72, 153, 0.3))',
+              fill: 'none',
+            } as React.CSSProperties & { stroke: string }}
+          />
+        </svg>
+        
+        {/* Text with proper z-index */}
+        <span
+          style={{
+            position: 'relative',
+            zIndex: 10,
+            fontWeight: 'bold',
+            whiteSpace: 'nowrap',
+            color: '#06b6d4',
+            backgroundColor: 'transparent',
+            display: 'inline-block',
+          } as React.CSSProperties}
+        >
+          {item.name}
+        </span>
+      </motion.a>
+    );
+  }
   
   return (
     <motion.a
       key={item.name}
       href={item.href}
-      className={`text-base md:text-lg font-bold transition-colors relative px-3 py-2 ${
-        isLightMode 
-          ? "text-black/90 hover:text-black" 
-          : "text-white/90 hover:text-white"
-      }`}
+      className="text-base md:text-lg font-bold transition-all relative px-3 py-2"
+      style={{ color: '#06b6d4' }}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      whileHover={{ y: -2 }}
+      whileHover={{ y: -2, scale: 1, color: '#2563eb' }}
     >
       {item.name}
       <motion.div
-        className={`absolute -bottom-1 left-0 right-0 h-1 rounded-full ${
-          isLightMode
-            ? "bg-gradient-to-r from-blue-500 to-purple-600"
-            : "bg-gradient-to-r from-pink-500 to-purple-600"
-        }`}
+        className="absolute -bottom-1 left-0 right-0 h-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-600"
         initial={{ scaleX: 0 }}
         whileHover={{ scaleX: 1 }}
         transition={{ duration: 0.3 }}

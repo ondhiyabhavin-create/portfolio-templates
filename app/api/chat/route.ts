@@ -235,17 +235,17 @@ const PORTFOLIO_DATA = {
       type: "Professional Project",
       category: "professional",
       year: 2024,
-      description: "A modern web platform built with Next.js featuring advanced UI components, smooth animations, and responsive design. Showcases expertise in frontend development with modern React patterns and performance optimization.",
+      description: "A real-time infrastructure health and security monitoring platform designed to provide instant situational awareness across distributed systems. Inspired by large-scale government and defense operations dashboards, the system prioritizes visual intelligence over tables, allowing operators to quickly identify issues, threats, and anomalies. Features automatic incident generation and tracking for critical service states.",
       technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
       features: [
-        "Advanced UI components library",
-        "Smooth page transitions",
-        "Responsive design system",
-        "Performance-optimized rendering",
-        "Modern React patterns",
-        "Accessibility compliance"
+        "Real-time infrastructure health monitoring",
+        "Security threat detection and visualization",
+        "Automatic incident generation for critical states",
+        "Multi-region service status tracking",
+        "Visual intelligence dashboard",
+        "Distributed systems monitoring"
       ],
-      impact: "Demonstrating cutting-edge frontend development",
+      impact: "Enabling rapid response to infrastructure and security threats through visual intelligence",
       link: "https://ghost-scalecapacity.vercel.app/",
       featured: true
     },
@@ -289,6 +289,7 @@ const PORTFOLIO_DATA = {
       ],
       impact: "Enabling secure online coding assessments",
       achievements: "Built complete proctoring system during hackathon",
+      link: "https://github.com/BhavinOndhiya/CodeInsgihts",
       featured: true
     },
     {
@@ -330,6 +331,7 @@ const PORTFOLIO_DATA = {
         "Role-based access"
       ],
       impact: "Streamlining data management processes",
+      link: "https://github.com/BhavinOndhiya/DataGrafico",
       featured: false
     },
     {
@@ -350,6 +352,7 @@ const PORTFOLIO_DATA = {
         "Share functionality"
       ],
       impact: "Sharing knowledge with the developer community",
+      link: "https://blogbyte.vercel.app/",
       featured: false
     }
   ],
@@ -505,40 +508,78 @@ Availability:
 
 Key Achievements:
 ${achievements.map(a => `- ${a}`).join('\n')}
-
 RESPONSE RULES:
-1. Answer using ONLY the information provided above
-2. Be specific with numbers, dates, company names, and project links
-3. Speak in first person as ${personalInfo.name}
-4. Keep responses natural and conversational
-5. ALWAYS format your responses with proper structure and readability:
-   - Use **bold** for project names, important terms, and key points
-   - Use bullet points (•) for lists - each item on a new line
-   - Use numbered lists (1., 2., 3.) when listing sequential items
-   - Add blank lines between paragraphs and sections for readability
-   - Keep paragraphs concise (2-4 sentences max)
-   - Use proper spacing and line breaks
-6. When mentioning projects:
-   - Format as: **Project Name** - description
-   - For projects with live sites (ThinSLICE, Ghost, Portfolio): include link inline as [Visit](url)
-   - For GitHub projects (DataGrafico, CodeInsights): mention "Visit GitHub repository" 
-   - For blog sites (Blog Byte): mention "Visit blog"
-   - Always provide a brief description after the project name
-7. When listing multiple items (projects, skills, experiences):
-   - Use bullet points (•) with each item on its own line
-   - Add spacing between items for clarity
-   - Use consistent formatting throughout
-8. For technical information:
-   - Organize by category with clear headings or bold labels
-   - Use bullet points for lists within categories
-   - Keep descriptions concise but informative
-9. For greetings: Be brief, friendly, and offer to help
-10. Encourage direct contact (${personalInfo.email}) for detailed discussions
-11. Never make up or assume information not provided
-12. If asked about something not in the data, politely say you don't have that information and suggest contacting directly
-13. When discussing technical skills, organize them by category (Frontend, Backend, AI/ML, Cloud, Databases, Tools) with clear formatting
-14. IMPORTANT: When asked about resume/CV, keep the response brief (1-2 sentences) and mention that the resume is available for download. Do NOT provide detailed resume content or list all experiences/skills. Just say something like "Here's my resume! You can download it below." or "I'd be happy to share my resume. You can download it below."
-15. Always ensure your response is well-formatted, easy to read, with proper spacing, bullet points, and clear structure - similar to how ChatGPT formats responses.`;
+
+1. I will always answer using ONLY the information provided above.
+2. I will speak in first person as Bhavin Ondhiya.
+3. I will always respond in **bullet points**. I will never write paragraphs or merge bullets.
+4. **CRITICAL**: Each bullet point MUST be on its own separate line. Press Enter/Return after each bullet point.
+5. I will NEVER put multiple bullet points on the same line (e.g., "• point 1 * point 2" is WRONG).
+6. Each bullet will contain **1-2 sentences max**.
+7. I will use **bold** for project names, key points, and important terms.
+8. I will leave a blank line between different sections (projects, skills, experiences).
+
+PROJECTS:
+
+9. When describing projects:
+   9.1 I will only list exactly what is asked by the user.
+   9.2 Each project will be in its **own bullet on a new line**.
+   9.3 Format (each on a separate line):
+       • **Project Name** - brief description
+       • Key feature 1
+       • Key feature 2
+       • Technologies: tech1, tech2
+   9.4 I will include 1-2 key features per project as separate bullets (each on a new line).
+   9.5 I will include technologies used as a separate bullet (on a new line).
+   9.6 I will include only the link(s) related to the project asked, nothing extra.
+
+TECHNICAL SKILLS:
+
+10. I will organize technical skills by category with bullets (each on a new line):
+    • **Frontend**: skill1, skill2
+    • **Backend**: skill1, skill2
+    • **Other Tools**: tool1, tool2
+
+RESUME/CV:
+
+11. If asked about my resume/CV (on a new line):
+    • Here's my resume! You can download it below.
+
+GREETINGS:
+
+12. For greetings, I will use 1-3 bullets max (each on a new line).
+13. I will encourage direct contact at bhavinondhiya0@gmail.com for detailed discussion.
+
+MISSING INFORMATION:
+
+14. If information is missing, I will respond politely (on a new line):
+    • I don't have that information, please contact me directly.
+
+CRITICAL FORMATTING RULES:
+
+15. Under no circumstances will I write flowing paragraphs.
+16. Every response will follow bullet-point formatting.
+17. **EACH BULLET POINT MUST BE ON A SEPARATE LINE** - never put multiple bullets on the same line.
+18. Each bullet will be short, concise, and clear.
+19. Blank lines will separate sections (projects, skills, experiences, greetings).
+20. Example of CORRECT format:
+    • First point
+
+    • Second point
+
+    • Third point
+21. Example of WRONG format (DO NOT DO THIS):
+    • First point * Second point * Third point (all on same line)
+
+ADDITIONAL NOTES:
+
+22. I will maintain consistency in formatting throughout the response.
+23. I will not include URLs directly in the text unless specifically asked for a project link.
+24. I will always ensure clarity and readability for each bullet point.
+25. I will respond fully as Bhavin Ondhiya, in first person, following all bullet-point rules.
+
+
+`;
 }
 
 export async function POST(request: NextRequest) {
@@ -628,103 +669,154 @@ export async function POST(request: NextRequest) {
     // Map of URLs to project names
     const projects = PORTFOLIO_DATA.projects;
     const urlToProjectMap: { [key: string]: string } = {};
-    const githubBlogLinks: Array<{ name: string; url: string }> = [];
+    const mentionedProjects: Set<string> = new Set();
     
     projects.forEach(project => {
       if (project.link && project.link !== '#' && project.link.startsWith('http')) {
         urlToProjectMap[project.link] = project.title;
+      }
+    });
+
+    // First, check which projects are actually mentioned in the response
+    const lowerMessage = aiMessage.toLowerCase();
+    
+    // Check each project to see if it's mentioned in the response
+    projects.forEach(project => {
+      if (project.link && project.link !== '#' && project.link.startsWith('http')) {
+        const projectNameLower = project.title.toLowerCase();
         
-        // Check if it's a GitHub or blog link (for "Visit" button display)
-        const isGitHub = project.link.includes('github.com');
-        const isBlog = project.link.includes('blogbyte.vercel.app');
-        
-        if (isGitHub || isBlog) {
-          githubBlogLinks.push({
-            name: project.title,
-            url: project.link
-          });
+        // Check for full project name match (most reliable)
+        if (lowerMessage.includes(projectNameLower)) {
+          mentionedProjects.add(project.link);
+        } else {
+          // Fallback: check for unique identifier (first word) as whole word
+          const uniqueIdentifier = projectNameLower.split(/\s+/)[0];
+          // Only match if identifier is at least 4 characters to avoid false matches
+          if (uniqueIdentifier.length >= 4) {
+            const identifierRegex = new RegExp(`\\b${uniqueIdentifier}\\b`, 'i');
+            if (identifierRegex.test(aiMessage)) {
+              mentionedProjects.add(project.link);
+            }
+          }
         }
       }
     });
 
-    // Format message: Replace URLs with formatted inline links
-    // For GitHub/blog links, we'll remove them from text and show as buttons
-    Object.entries(urlToProjectMap).forEach(([url, projectName]) => {
-      const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const escapedProjectName = projectName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const isGitHub = url.includes('github.com');
-      const isBlog = url.includes('blogbyte.vercel.app');
-      
-      // For GitHub/blog links, remove URL from text (will show as button)
-      if (isGitHub || isBlog) {
-        // Remove patterns like: **Project Name** (url) or Project Name (url)
-        const patterns = [
-          new RegExp(`\\*\\*${escapedProjectName}\\*\\*\\s*\\(${escapedUrl}\\)`, 'g'),
-          new RegExp(`${escapedProjectName}\\s*\\(${escapedUrl}\\)`, 'g'),
-          new RegExp(`\\b${escapedUrl}\\b`, 'g'),
-        ];
-        
-        patterns.forEach(pattern => {
-          if (pattern.source.includes(projectName)) {
-            aiMessage = aiMessage.replace(pattern, `**${projectName}**`);
-          } else {
-            aiMessage = aiMessage.replace(pattern, '');
-          }
+    // Only create visit links for projects that are actually mentioned
+    // Use a Map to ensure no duplicates by URL
+    const visitLinksMap = new Map<string, { name: string; url: string }>();
+    mentionedProjects.forEach(url => {
+      if (urlToProjectMap[url] && !visitLinksMap.has(url)) {
+        visitLinksMap.set(url, {
+          name: urlToProjectMap[url],
+          url: url
         });
-        
-        // Clean up extra spaces
-        aiMessage = aiMessage.replace(/\s+/g, ' ').replace(/\s*-\s*-/g, ' -').trim();
-      } else {
-        // For other links (live sites), format as inline markdown links
-        const pattern1 = new RegExp(`\\*\\*${escapedProjectName}\\*\\*\\s*\\(${escapedUrl}\\)`, 'g');
-        if (pattern1.test(aiMessage)) {
-          try {
-            const hostname = new URL(url).hostname;
-            aiMessage = aiMessage.replace(pattern1, `**${projectName}** ([Visit](${url}))`);
-          } catch (e) {
-            aiMessage = aiMessage.replace(pattern1, `**${projectName}** ([Visit](${url}))`);
-          }
-        }
-        
-        const pattern2 = new RegExp(`${escapedProjectName}\\s*\\(${escapedUrl}\\)`, 'g');
-        if (pattern2.test(aiMessage)) {
-          try {
-            const hostname = new URL(url).hostname;
-            aiMessage = aiMessage.replace(pattern2, `**${projectName}** ([Visit](${url}))`);
-          } catch (e) {
-            aiMessage = aiMessage.replace(pattern2, `**${projectName}** ([Visit](${url}))`);
-          }
-        }
-        
-        // Standalone URL
-        const pattern3 = new RegExp(`\\b${escapedUrl}\\b`, 'g');
-        if (pattern3.test(aiMessage) && !aiMessage.includes(`[Visit](${url})`)) {
-          aiMessage = aiMessage.replace(pattern3, `[Visit](${url})`);
-        }
       }
     });
+    
+    // Convert to array
+    const visitLinks = Array.from(visitLinksMap.values());
+
+    // Format message: Remove URLs from text only for mentioned projects
+    Object.entries(urlToProjectMap).forEach(([url, projectName]) => {
+      // Only process if this project was mentioned
+      if (!mentionedProjects.has(url)) {
+        return;
+      }
+
+      const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escapedProjectName = projectName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      
+      // Remove all patterns of URLs from text
+      const patterns = [
+        // Pattern: **Project Name** (url)
+        new RegExp(`\\*\\*${escapedProjectName}\\*\\*\\s*\\(${escapedUrl}\\)`, 'gi'),
+        // Pattern: **Project Name** ([Visit](url)) or similar markdown links
+        new RegExp(`\\*\\*${escapedProjectName}\\*\\*\\s*\\[([^\\]]+)\\]\\(${escapedUrl}\\)`, 'gi'),
+        // Pattern: Project Name (url)
+        new RegExp(`${escapedProjectName}\\s*\\(${escapedUrl}\\)`, 'gi'),
+        // Pattern: Standalone URL
+        new RegExp(`\\b${escapedUrl}\\b`, 'gi'),
+        // Pattern: Markdown link [text](url) for this project
+        new RegExp(`\\[([^\\]]+)\\]\\(${escapedUrl}\\)`, 'gi'),
+      ];
+      
+      patterns.forEach(pattern => {
+        if (pattern.source.includes(projectName)) {
+          // Replace with just the project name in bold
+          aiMessage = aiMessage.replace(pattern, `**${projectName}**`);
+        } else {
+          // Remove the URL/markdown link entirely
+          aiMessage = aiMessage.replace(pattern, '');
+        }
+      });
+    });
+    
+    // CRITICAL: First split inline bullet points that are on the same line
+    // Pattern: • text • text • text (all on one line) - split into separate lines
+    // This must happen BEFORE space normalization
+    aiMessage = aiMessage.replace(/(•[^•\n]+?)(\s+•)/g, '$1\n$2');
+    
+    // Also split bullet points separated by punctuation followed by bullet
+    // Pattern: text. • text. • text.
+    aiMessage = aiMessage.replace(/([\.\!\?])\s+(•)/g, '$1\n$2');
+    
+    // Split bullet points that are separated by periods but on same line
+    // Pattern: • text. • text. • text.
+    aiMessage = aiMessage.replace(/(•[^•\n]+?[\.\!\?])\s+(•)/g, '$1\n$2');
+    
+    // Clean up extra spaces and malformed markdown (but preserve newlines we just added)
+    aiMessage = aiMessage
+      .replace(/[ \t]+/g, ' ') // Normalize spaces but keep newlines
+      .replace(/\s*-\s*-/g, ' -')
+      .replace(/\[([^\]]+)\]\(https?:\/\/[^\)]+\)/g, '') // Remove any remaining markdown links
+      // Fix malformed bold markdown patterns
+      .replace(/\*\*([^*\n]+)\*([^*\n\s])/g, '**$1**$2') // Fix **text*text -> **text**text
+      .replace(/\*\*([^*\n]+)\*$/gm, '**$1**') // Fix **text* at end of line
+      .replace(/\*\*([^*\n]+)\*\s/g, '**$1** ') // Fix **text* followed by space
+      .replace(/\*\*([^*\n]+)\*\n/g, '**$1**\n') // Fix **text* followed by newline
+      .replace(/\*\*([^*\n]+)\*([\s\n•])/g, '**$1**$2') // Fix **text* followed by space/newline/bullet
+      // Fix single asterisk bold (if it's meant to be bold)
+      .replace(/([^\*])\*([^*\n\s]+)\*([^\*\n\s])/g, '$1**$2**$3') // Fix *text*text -> **text**text (but not if part of **)
+      // Remove standalone single asterisks that aren't part of markdown (but keep bullet points)
+      .replace(/([^\n•\-\*])\s+\*\s+([^\n•\-\*])/g, '$1 $2') // Remove standalone * with spaces (not bullets)
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Get all project URLs to exclude from further processing
+    const projectUrls = new Set(Object.keys(urlToProjectMap));
 
     // Handle any remaining standalone URLs that weren't project URLs
     const urlRegex = /(https?:\/\/[^\s\)]+)/g;
     aiMessage = aiMessage.replace(urlRegex, (url: string) => {
       // Skip if already formatted as markdown link
       if (url.includes('[') || url.includes(']')) {
-        return url;
+        return '';
       }
       
       const cleanUrl = url.replace(/[.,;:!?]+$/, '');
+      
+      // Skip if this is a project URL (should already be removed)
+      if (projectUrls.has(cleanUrl)) {
+        return '';
+      }
+      
+      // Only convert non-project URLs to markdown links
       try {
         const urlObj = new URL(cleanUrl);
         return `[${urlObj.hostname}](${cleanUrl})`;
       } catch {
-        return url;
+        return '';
       }
     });
+    
+    // Final cleanup
+    aiMessage = aiMessage.replace(/\s+/g, ' ').trim();
 
     return NextResponse.json({ 
       message: aiMessage,
       showResumeButton: aiMentionsResume,
-      visitLinks: githubBlogLinks.length > 0 ? githubBlogLinks : undefined
+      visitLinks: visitLinks.length > 0 ? visitLinks : undefined
     });
   } catch (error) {
     console.error('Chat API Error:', error);

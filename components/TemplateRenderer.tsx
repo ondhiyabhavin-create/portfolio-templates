@@ -17,11 +17,11 @@ export function TemplateRenderer() {
     <>
       <Navigation />
       <AIHero />
+      <AIInteraction />
       <AIAbout />
       <Skills />
       <AIProjects />
       <Experience />
-      <AIInteraction />
       <AIContact />
     </>
   );

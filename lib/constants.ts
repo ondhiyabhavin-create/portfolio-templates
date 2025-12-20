@@ -232,7 +232,7 @@ export const PROJECTS: Project[] = [
   {
     id: 2,
     title: "Ghost Platform",
-    description: "A modern web platform built with Next.js featuring advanced UI components, smooth animations, and responsive design. Showcases expertise in frontend development with modern React patterns and performance optimization.",
+    description: "A real-time infrastructure health and security monitoring platform designed to provide instant situational awareness across distributed systems. Inspired by large-scale government and defense operations dashboards, the system prioritizes visual intelligence over tables, allowing operators to quickly identify issues, threats, and anomalies. Features automatic incident generation and tracking for critical service states.",
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
     image: "https://ghost-scalecapacity.vercel.app/",
     screenshotUrls: [
@@ -243,28 +243,30 @@ export const PROJECTS: Project[] = [
     category: "Professional Project",
     date: "2024",
     details: {
-      overview: "A cutting-edge web platform demonstrating modern frontend development practices with Next.js and React. Features advanced animations, responsive design, and optimized performance.",
+      overview: "A real-time infrastructure health and security monitoring platform inspired by large-scale government and defense operations dashboards. The system provides instant situational awareness across distributed systems, prioritizing visual intelligence over traditional tables and logs. Operators can quickly identify issues, threats, and anomalies without digging through raw data.",
       features: [
-        "Server-side rendering with Next.js App Router",
-        "Advanced animations using Framer Motion",
-        "Responsive design with Tailwind CSS",
-        "Type-safe development with TypeScript",
-        "Optimized performance and SEO"
+        "Real-time infrastructure health monitoring across distributed systems",
+        "Security threat detection and visualization",
+        "Automatic incident generation for critical service states",
+        "Multi-region service status tracking",
+        "Visual intelligence dashboard with instant situational awareness",
+        "Service health reporting with immediate visual feedback",
+        "Incident tracking and assignment to response teams"
       ],
-      challenges: "Implementing complex animations while maintaining performance, ensuring cross-browser compatibility, and optimizing bundle size.",
-      impact: "Showcases modern web development capabilities and serves as a reference for scalable frontend architecture.",
-      architecture: "Modern frontend architecture using Next.js App Router with React Server Components. Client-side interactivity handled through Client Components. Animation system built with Framer Motion for smooth 60fps transitions. Styling with Tailwind CSS utility classes and custom design tokens.",
-      technologies: ["Next.js 14", "React 18", "TypeScript", "Tailwind CSS", "Framer Motion", "React Server Components", "CSS Modules"],
-      developmentProcess: "Designed component architecture with reusability in mind. Implemented animation system with performance optimization. Created responsive layouts using mobile-first approach. Optimized bundle size through code splitting and lazy loading. Tested across multiple browsers and devices.",
+      challenges: "Implementing real-time monitoring across distributed systems, creating visual intelligence dashboards that provide instant situational awareness, handling automatic incident generation, and ensuring accurate health status reporting.",
+      impact: "Enabling rapid response to infrastructure and security threats through visual intelligence, reducing time to identify and resolve critical issues.",
+      architecture: "Modern Next.js architecture with real-time data processing. Visual intelligence dashboard using React and Framer Motion for smooth updates. Real-time service health monitoring with automatic incident generation. Multi-region status tracking with distributed system support.",
+      technologies: ["Next.js 14", "React 18", "TypeScript", "Tailwind CSS", "Framer Motion", "Real-time Monitoring", "Security Monitoring"],
+      developmentProcess: "Designed visual intelligence dashboard inspired by defense operations systems. Implemented real-time health monitoring across distributed systems. Created automatic incident generation for critical states. Built multi-region service tracking. Developed visual status indicators for rapid threat identification.",
       results: [
-        "Achieved 95+ Lighthouse performance score",
-        "Smooth 60fps animations on all devices",
-        "Fully responsive across all screen sizes",
-        "Fast initial load time under 2 seconds",
-        "Zero layout shift during page transitions"
+        "Real-time infrastructure monitoring across distributed systems",
+        "Automatic incident generation for critical service states",
+        "Visual intelligence dashboard for instant situational awareness",
+        "Multi-region service status tracking",
+        "Rapid threat and anomaly identification"
       ],
-      lessonsLearned: "Learned that animation performance requires careful optimization. Discovered the power of React Server Components for reducing client-side JavaScript. Realized the importance of progressive enhancement. Understood how to balance visual appeal with performance.",
-      futureImprovements: "Plans include adding dark mode, implementing PWA capabilities, adding more interactive elements, optimizing for Core Web Vitals, and expanding animation library."
+      lessonsLearned: "Learned the importance of visual intelligence in monitoring systems. Discovered how defense-inspired dashboards improve operator efficiency. Realized the value of automatic incident generation. Understood the complexity of distributed system monitoring.",
+      futureImprovements: "Plans include enhanced threat detection algorithms, expanded monitoring capabilities, improved incident management workflows, and additional security features."
     },
   },
   {
@@ -598,6 +600,11 @@ export const AI_PROMPTS = [
     id: 3,
     text: "What projects have you worked on?",
     response: "I've worked on several projects including CodeInsights (a coding platform with AI proctoring), DataGrafico (an internship project), Blog Byte (my personal Next.js blog), and MCC Chatbot (showcasing full-stack and cloud expertise). Each project demonstrates different aspects of my skills from AI integration to full-stack development.",
+  },
+  {
+    id: 4,
+    text: "What's your best project?",
+    response: "I consider ThinSLICE Digital Repository as one of my best projects - a comprehensive digital repository for geological rock samples built for the University of Texas Austin Geological Department. It features 3D scanned rock specimens, metadata extraction, and enables researchers to search and download geological samples.",
   },
 ];
 
