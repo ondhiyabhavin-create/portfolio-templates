@@ -15,23 +15,14 @@ export function About() {
   const values = SERVICES;
 
   const getSectionBg = () => {
-    if (currentTemplate === "vibrant-animated") {
-      return "bg-gradient-to-b from-purple-900/50 via-blue-900/50 to-pink-900/50";
-    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
+    if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
       return "bg-gradient-to-b from-cyan-950/30 via-purple-950/30 to-transparent";
-    } else {
-      return "bg-gradient-to-b from-orange-950/30 via-blue-950/30 to-transparent";
     }
+    return "bg-gradient-to-b from-cyan-950/30 via-purple-950/30 to-transparent";
   };
 
   const getGradientText = () => {
-    if (currentTemplate === "vibrant-animated") {
-      return "gradient-text-2";
-    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
-      return "gradient-text";
-    } else {
-      return "text-orange-400";
-    }
+    return "gradient-text";
   };
 
   return (
@@ -99,11 +90,7 @@ export function About() {
             {/* Template-Specific Animated Illustration */}
             <motion.div variants={slideInRight} className="relative">
               <div className="glass-strong rounded-3xl p-8 aspect-square flex items-center justify-center overflow-hidden">
-                {currentTemplate === "vibrant-animated" ? (
-                  <VibrantIllustration />
-                ) : currentTemplate === "warm-professional" ? (
-                  <WarmIllustration />
-                ) : null}
+                {null}
               </div>
             </motion.div>
           </div>

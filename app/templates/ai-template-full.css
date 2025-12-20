@@ -9,6 +9,13 @@
 .ai-template-full body {
   background: oklch(0.05 0 0) !important;
   color: oklch(0.98 0 0) !important;
+  overflow-y: auto !important;
+  height: auto !important;
+}
+
+.ai-template-bw body {
+  overflow-y: auto !important;
+  height: auto !important;
 }
 
 .ai-template-full .glass {
@@ -233,10 +240,22 @@ body.ai-template-bw {
 
 /* B&W Mode - Keep the same blue/purple gradient colors */
 .ai-template-bw .gradient-text {
-  background: linear-gradient(135deg, oklch(0.7 0.2 200), oklch(0.65 0.25 250), oklch(0.65 0.25 300)) !important;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
+  display: inline-block !important;
+  background-size: 200% 200% !important;
+  animation: gradient-shift 5s ease infinite !important;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 /* B&W Mode - Buttons with gradients */
@@ -343,16 +362,40 @@ body.ai-template-bw {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* B&W Mode - Skill logo containers */
-.ai-template-bw #skills [class*="bg-white"] {
+/* B&W Mode - Skill logo containers (exclude service cards) */
+.ai-template-bw #skills [class*="bg-white"]:not(.service-card) {
   background: rgba(0, 0, 0, 0.05) !important;
   border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Override for Services cards - ensure white background */
+/* Override for Services cards - ensure white background and colored borders */
 .ai-template-bw #skills .service-card {
   background: rgba(255, 255, 255, 0.95) !important;
-  border-color: inherit !important;
+}
+
+/* Ensure border colors are applied correctly for Services cards - matching About section */
+.ai-template-bw #skills .service-card.border-blue-100 {
+  border-color: rgb(219, 234, 254) !important;
+}
+
+.ai-template-bw #skills .service-card.border-purple-100 {
+  border-color: rgb(243, 232, 255) !important;
+}
+
+.ai-template-bw #skills .service-card.border-cyan-100 {
+  border-color: rgb(207, 250, 254) !important;
+}
+
+.ai-template-bw #skills .service-card.border-green-100 {
+  border-color: rgb(220, 252, 231) !important;
+}
+
+.ai-template-bw #skills .service-card.border-orange-100 {
+  border-color: rgb(255, 237, 213) !important;
+}
+
+.ai-template-bw #skills .service-card.border-pink-100 {
+  border-color: rgb(252, 231, 243) !important;
 }
 
 /* Skill logo container styling */

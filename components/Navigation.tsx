@@ -13,6 +13,7 @@ const navItems = [
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
   { name: "Experience", href: "#experience" },
+  { name: "AI Chat", href: "#ai-interaction" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -81,7 +82,7 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isMirrorTemplate = currentTemplate === "mirror-display";
+  const isMirrorTemplate = false;
 
   return (
     <motion.nav
@@ -93,11 +94,11 @@ export function Navigation() {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 relative",
         scrolled
           ? isMirrorTemplate 
-            ? "mirror-frosted border-b border-white/10 py-4"
-            : "glass-strong border-b border-white/20 py-4"
+            ? "mirror-frosted border-b border-white/10 py-5"
+            : "glass-strong border-b border-white/20 py-5"
           : isMirrorTemplate
-            ? "bg-transparent py-6"
-            : "bg-transparent py-6"
+            ? "bg-transparent py-8"
+            : "bg-transparent py-8"
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -124,13 +125,7 @@ export function Navigation() {
       <div className="container mx-auto px-6 flex items-center justify-between">
         <motion.a
           href="#hero"
-          className={`text-2xl font-black ${
-            currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light" ? "gradient-text" : 
-            currentTemplate === "mirror-display" ? "gradient-text ai-glow" :
-            currentTemplate === "brutalist-tech" ? "uppercase text-black font-mono" :
-            currentTemplate === "soft-creative" ? "font-light text-[#2d2d2d]" :
-            "gradient-text-2"
-          }`}
+          className="text-3xl md:text-4xl font-black gradient-text"
           whileHover={{ scale: 1.1, rotate: 2 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -138,7 +133,7 @@ export function Navigation() {
         </motion.a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-6">
           {navItems.map((item, index) => (
             <NavItemMirror
               key={item.name}
@@ -147,22 +142,27 @@ export function Navigation() {
               mouseX={mouseX}
               mouseY={mouseY}
               isMirrorTemplate={isMirrorTemplate}
+              currentTemplate={currentTemplate}
             />
           ))}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ml-2">
             <TemplateSwitcher />
           </div>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-4">
+        <div className="md:hidden flex items-center gap-3">
           <TemplateSwitcher />
           <button
-            className="text-white"
+            className={`p-2 ${
+              currentTemplate === "ai-template-light" 
+                ? "text-black" 
+                : "text-white"
+            }`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
@@ -176,12 +176,16 @@ export function Navigation() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden glass-strong border-t border-white/20"
           >
-            <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
+            <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-sm font-bold text-white hover:text-pink-400 transition-colors"
+                  className={`text-base font-bold transition-colors py-2 ${
+                    currentTemplate === "ai-template-light"
+                      ? "text-black hover:text-blue-600"
+                      : "text-white hover:text-pink-400"
+                  }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
@@ -201,13 +205,15 @@ function NavItemMirror({
   index, 
   mouseX, 
   mouseY, 
-  isMirrorTemplate 
+  isMirrorTemplate,
+  currentTemplate
 }: { 
   item: { name: string; href: string }; 
   index: number; 
   mouseX: ReturnType<typeof useMotionValue<number>>; 
   mouseY: ReturnType<typeof useMotionValue<number>>; 
   isMirrorTemplate: boolean;
+  currentTemplate: string;
 }) {
   const itemRef = useRef<HTMLAnchorElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -284,11 +290,17 @@ function NavItemMirror({
   }
 
   // Default behavior for other templates
+  const isLightMode = currentTemplate === "ai-template-light";
+  
   return (
     <motion.a
       key={item.name}
       href={item.href}
-      className="text-sm font-bold text-white/90 hover:text-white transition-colors relative"
+      className={`text-base md:text-lg font-bold transition-colors relative px-3 py-2 ${
+        isLightMode 
+          ? "text-black/90 hover:text-black" 
+          : "text-white/90 hover:text-white"
+      }`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
@@ -296,7 +308,11 @@ function NavItemMirror({
     >
       {item.name}
       <motion.div
-        className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full"
+        className={`absolute -bottom-1 left-0 right-0 h-1 rounded-full ${
+          isLightMode
+            ? "bg-gradient-to-r from-blue-500 to-purple-600"
+            : "bg-gradient-to-r from-pink-500 to-purple-600"
+        }`}
         initial={{ scaleX: 0 }}
         whileHover={{ scaleX: 1 }}
         transition={{ duration: 0.3 }}

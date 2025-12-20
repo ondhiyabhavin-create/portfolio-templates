@@ -40,10 +40,10 @@ export function TemplateProvider({ children }: { children: React.ReactNode }) {
     const main = document.querySelector("main");
     
     // Remove all template classes
-    body.classList.remove("vibrant-template", "ai-template-full", "ai-template-bw", "ai-template-color", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
-    root.classList.remove("vibrant-template", "ai-template-full", "ai-template-bw", "ai-template-color", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
+    body.classList.remove("ai-template-full", "ai-template-bw", "ai-template-color");
+    root.classList.remove("ai-template-full", "ai-template-bw", "ai-template-color");
     if (main) {
-      main.classList.remove("vibrant-template", "ai-template-full", "ai-template-bw", "ai-template-color", "warm-professional-template", "mirror-display", "brutalist-tech", "soft-creative");
+      main.classList.remove("ai-template-full", "ai-template-bw", "ai-template-color");
     }
     
     // Remove inline styles
@@ -52,15 +52,7 @@ export function TemplateProvider({ children }: { children: React.ReactNode }) {
     root.style.setProperty("--template-secondary", "");
     root.style.setProperty("--template-accent", "");
     
-    if (template === "vibrant-animated") {
-      body.className = "vibrant-template";
-      body.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
-      body.style.color = "#ffffff";
-      root.style.setProperty("--template-primary", "#ff6b6b");
-      root.style.setProperty("--template-secondary", "#4ecdc4");
-      root.style.setProperty("--template-accent", "#ffe66d");
-      root.style.setProperty("--template-bg", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)");
-    } else if (template === "ai-template-dark") {
+    if (template === "ai-template-dark") {
       body.className = "ai-template-full ai-template-color";
       body.style.background = "oklch(0.05 0 0)";
       body.style.color = "oklch(0.98 0 0)";
@@ -78,41 +70,6 @@ export function TemplateProvider({ children }: { children: React.ReactNode }) {
       root.style.setProperty("--template-secondary", "#8b5cf6");
       root.style.setProperty("--template-accent", "#a855f7");
       root.style.setProperty("--template-bg", "#ffffff");
-    } else if (template === "mirror-display") {
-      body.className = "mirror-display";
-      body.style.background = "linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)";
-      body.style.color = "#ffffff";
-      root.className = "mirror-display";
-      root.style.setProperty("--template-primary", "#00d9ff");
-      root.style.setProperty("--template-secondary", "#7b61ff");
-      root.style.setProperty("--template-accent", "#ff00ff");
-      root.style.setProperty("--template-bg", "linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)");
-    } else if (template === "brutalist-tech") {
-      body.className = "brutalist-tech";
-      body.style.background = "#ffffff";
-      body.style.color = "#000000";
-      root.className = "brutalist-tech";
-      root.style.setProperty("--template-primary", "#000000");
-      root.style.setProperty("--template-secondary", "#ffffff");
-      root.style.setProperty("--template-accent", "#ff0000");
-      root.style.setProperty("--template-bg", "#ffffff");
-    } else if (template === "soft-creative") {
-      body.className = "soft-creative";
-      body.style.background = "#faf8f5";
-      body.style.color = "#3d3d3d";
-      root.className = "soft-creative";
-      root.style.setProperty("--template-primary", "#f5e6d3");
-      root.style.setProperty("--template-secondary", "#d4a574");
-      root.style.setProperty("--template-accent", "#c9a88a");
-      root.style.setProperty("--template-bg", "#faf8f5");
-    } else {
-      body.className = "warm-professional-template";
-      body.style.background = "#141414";
-      body.style.color = "#ffffff";
-      root.style.setProperty("--template-primary", "#ff8c42");
-      root.style.setProperty("--template-secondary", "#4ecdc4");
-      root.style.setProperty("--template-accent", "#ffe66d");
-      root.style.setProperty("--template-bg", "#141414");
     }
     
     // Force re-render by updating data attribute

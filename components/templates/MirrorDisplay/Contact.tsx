@@ -43,7 +43,7 @@ export function MirrorContact() {
 
   const socialLinks = [
     { icon: Phone, href: `tel:${PERSONAL_INFO.phone}`, label: "Call Us On", value: PERSONAL_INFO.phone },
-    { icon: MapPin, href: "#", label: "Office", value: PERSONAL_INFO.city },
+    { icon: MapPin, href: "https://www.google.com/maps/dir//Surat,+Gujarat/@21.1592002,72.8222859,12z/data=!4m17!1m8!3m7!1s0x3be04e59411d1563:0xfe4558290938b042!2sSurat,+Gujarat!3b1!8m2!3d21.1702401!4d72.8310607!16zL20vMDFoMWhu!4m7!1m0!1m5!1m1!1s0x3be04e59411d1563:0xfe4558290938b042!2m2!1d72.8310607!2d21.1702401?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D", label: "Office", value: PERSONAL_INFO.city },
     { icon: Mail, href: `mailto:${PERSONAL_INFO.email}`, label: "Email", value: PERSONAL_INFO.email },
     { icon: Globe, href: PERSONAL_INFO.website, label: "Website", value: "Visit Portfolio" },
   ];

@@ -9,12 +9,23 @@ import { EXPERIENCE } from "@/lib/constants";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { useTemplate } from "@/context/TemplateContext";
 
+// Seeded random function for consistent values
+function seededRandom(seed: number) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
 export function Experience() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { currentTemplate } = useTemplate();
   const isBwMode = currentTemplate === "ai-template-light";
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const getRoleIcon = (role: string) => {
     if (role.toLowerCase().includes("junior") || role.toLowerCase().includes("developer")) {
@@ -43,42 +54,35 @@ export function Experience() {
   };
 
   const getSectionClass = () => {
-    if (currentTemplate === "brutalist-tech") return "brutalist-tech bg-white";
-    if (currentTemplate === "soft-creative") return "soft-creative";
     return "";
   };
 
   const getTitleClass = () => {
-    if (currentTemplate === "brutalist-tech") return "uppercase text-black font-black";
-    if (currentTemplate === "soft-creative") return "font-light text-[#2d2d2d]";
     return "gradient-text";
   };
 
   const getCardClass = () => {
-    if (currentTemplate === "brutalist-tech") return "brutal-card";
-    if (currentTemplate === "soft-creative") return "soft-card";
+    if (isBwMode) {
+      return "bg-white/95 rounded-xl";
+    }
     return "glass rounded-xl";
   };
 
   return (
-    <section id="experience" ref={ref} className={`relative py-32 overflow-hidden ${getSectionClass()}`}>
-      <div className="container mx-auto px-6">
+    <section id="experience" ref={ref} className={`relative py-32 overflow-hidden ${isBwMode ? 'bg-white' : ''}`}>
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="max-w-4xl mx-auto"
+          className="max-w-6xl mx-auto"
         >
           {/* Section Header */}
           <motion.div variants={fadeInUp} className="text-center mb-16">
             <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${getTitleClass()}`}>
-              {currentTemplate === "brutalist-tech" ? "EXPERIENCE" : "Experience"}
+              Experience
             </h2>
-            <p className={`text-xl max-w-2xl mx-auto ${
-              currentTemplate === "brutalist-tech" ? "text-gray-700 font-mono" :
-              currentTemplate === "soft-creative" ? "text-[#8b7355]" :
-              "text-muted-foreground"
-            }`}>
+            <p className="text-xl max-w-2xl mx-auto text-muted-foreground">
               My professional journey
             </p>
           </motion.div>
@@ -99,7 +103,7 @@ export function Experience() {
             />
 
             {/* Timeline Items */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               {EXPERIENCE.map((exp, index) => {
                 const RoleIcon = getRoleIcon(exp.role);
                 const duration = calculateDuration(exp.period);
@@ -163,10 +167,10 @@ export function Experience() {
 
                     {/* Enhanced Content Card */}
                     <motion.div
-                      className={`${getCardClass()} p-6 md:p-8 cursor-pointer group relative overflow-hidden ${
+                      className={`${getCardClass()} p-8 md:p-10 cursor-pointer group relative overflow-hidden transition-all ${
                         isBwMode
-                          ? "bg-white/95 border-2 border-black/10 hover:border-blue-500/30"
-                          : "hover:border-[var(--accent-primary)]/50"
+                          ? "border-2 border-black/10 hover:border-blue-500/30 hover:shadow-xl"
+                          : "border border-border hover:border-[var(--accent-primary)]/50 hover:shadow-xl hover:shadow-[var(--accent-primary)]/20"
                       }`}
                       onClick={() => setExpandedId(isExpanded ? null : exp.id)}
                       initial={{ opacity: 0, y: 50 }}
@@ -178,31 +182,11 @@ export function Experience() {
                         damping: 15
                       }}
                       whileHover={{ 
-                        x: 12, 
-                        scale: 1.03,
+                        y: -4,
                         transition: { type: "spring", stiffness: 400, damping: 17 }
                       }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {/* Animated Gradient Background Effect */}
-                      <motion.div 
-                        className={`absolute inset-0 opacity-0 group-hover:opacity-10 ${
-                          isBwMode
-                            ? "bg-gradient-to-r from-blue-500 to-purple-500"
-                            : "bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]"
-                        }`}
-                        animate={{
-                          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                        }}
-                        transition={{
-                          duration: 5,
-                          repeat: Infinity,
-                          ease: "linear"
-                        }}
-                        style={{
-                          backgroundSize: "200% 200%"
-                        }}
-                      />
 
                       <div className="relative z-10">
                         {/* Header Section */}
@@ -345,8 +329,8 @@ export function Experience() {
                           <motion.div
                             animate={{ rotate: isExpanded ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
-                            className={`ml-4 ${
-                              isBwMode ? "text-black/50" : "text-muted-foreground"
+                            className={`ml-4 flex-shrink-0 ${
+                              isBwMode ? "text-black/50" : "text-white"
                             }`}
                           >
                             <ChevronDown className="w-6 h-6" />

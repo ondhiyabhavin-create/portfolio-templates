@@ -44,14 +44,18 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
   body {
     font-feature-settings: "rlig" 1, "calt" 1;
     background: var(--background);
     min-height: 100vh;
     color: var(--foreground);
-  }
-  html {
-    scroll-behavior: smooth;
+    overflow-x: hidden;
+    position: relative;
   }
 }
 
@@ -167,7 +171,7 @@ html.lenis {
 }
 
 .lenis.lenis-smooth {
-  scroll-behavior: auto;
+  scroll-behavior: auto !important;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
@@ -176,6 +180,21 @@ html.lenis {
 
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/* Prevent scroll jumps */
+html {
+  scroll-padding-top: 0;
+}
+
+* {
+  scroll-margin-top: 0;
+}
+
+/* Prevent layout shifts */
+main {
+  min-height: 100vh;
+  position: relative;
 }
 
 /* Custom scrollbar */

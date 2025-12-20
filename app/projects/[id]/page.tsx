@@ -154,8 +154,10 @@ export default function ProjectDetailPage() {
                     } : {}}
                   />
                 )}
-                {/* Elegant overlay gradient */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-[oklch(0.05_0_0)]/20" />
+                {/* Elegant overlay gradient - Only in dark mode */}
+                {!isBwMode && (
+                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-[oklch(0.05_0_0)]/20" />
+                )}
                 
                 {/* Image counter */}
                 {allImages.length > 1 && (
@@ -227,7 +229,9 @@ export default function ProjectDetailPage() {
                         } : {}}
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 pointer-events-none z-10" />
+                    {!isBwMode && (
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 pointer-events-none z-10" />
+                    )}
                   </motion.div>
                 ))}
               </div>

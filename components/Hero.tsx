@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
 import { ROLES, PERSONAL_INFO, TAGLINE } from "@/lib/constants";
 import { fadeInUp, textReveal } from "@/lib/animations";
-import { ParticlesBackground } from "./ParticlesBackground";
 import { useTemplate } from "@/context/TemplateContext";
 
 export function Hero() {
@@ -20,29 +19,21 @@ export function Hero() {
   }, []);
 
   const getBackgroundStyle = () => {
-    if (currentTemplate === "vibrant-animated") {
-      return {
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-      };
-    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
+    if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
       return {
         background: "oklch(0.05 0 0)",
       };
-    } else {
-      return {
-        background: "#141414",
-      };
     }
+    return {
+      background: "oklch(0.05 0 0)",
+    };
   };
 
   const getBackgroundOverlay = () => {
-    if (currentTemplate === "vibrant-animated") {
-      return "animated-gradient opacity-90";
-    } else if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
+    if (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light") {
       return "bg-gradient-to-br from-cyan-900/10 via-purple-900/10 to-transparent";
-    } else {
-      return "bg-gradient-to-br from-orange-900/20 via-blue-900/20 to-transparent";
     }
+    return "bg-gradient-to-br from-cyan-900/10 via-purple-900/10 to-transparent";
   };
 
   return (
@@ -51,7 +42,6 @@ export function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={getBackgroundStyle()}
     >
-      {currentTemplate === "vibrant-animated" && <ParticlesBackground />}
       
       {/* Animated Gradient Background */}
       <div className={`absolute inset-0 ${getBackgroundOverlay()}`} />
@@ -99,9 +89,8 @@ export function Hero() {
               Hello, I'm
             </span>
             <span className={`block text-7xl md:text-8xl lg:text-9xl font-black drop-shadow-2xl ${
-              currentTemplate === "vibrant-animated" ? "gradient-text-2" :
               (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")? "gradient-text" :
-              "text-orange-400"
+              "gradient-text"
             }`}>
               {PERSONAL_INFO.name.split(' ')[0]}
             </span>
@@ -145,11 +134,9 @@ export function Hero() {
               href={PERSONAL_INFO.resume}
               download
               className={`group relative px-10 py-5 text-white font-bold rounded-full overflow-hidden shadow-2xl hover-lift ${
-                currentTemplate === "vibrant-animated" 
-                  ? "bg-gradient-to-r from-pink-500 to-purple-600"
-                  : (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")
+                (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")
                   ? "bg-gradient-to-r from-cyan-500 to-purple-600"
-                  : "bg-gradient-to-r from-orange-500 to-red-600"
+                  : "bg-gradient-to-r from-cyan-500 to-purple-600"
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -159,11 +146,9 @@ export function Hero() {
               </span>
               <motion.div
                 className={`absolute inset-0 shimmer ${
-                  currentTemplate === "vibrant-animated"
-                    ? "bg-gradient-to-r from-purple-600 to-pink-500"
-                    : (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")
+                  (currentTemplate === "ai-template-dark" || currentTemplate === "ai-template-light")
                     ? "bg-gradient-to-r from-purple-600 to-cyan-500"
-                    : "bg-gradient-to-r from-red-600 to-orange-500"
+                    : "bg-gradient-to-r from-purple-600 to-cyan-500"
                 }`}
                 initial={{ x: "-100%" }}
                 whileHover={{ x: 0 }}
@@ -220,8 +205,7 @@ function AnimatedRole({ roles, currentIndex, template }: { roles: string[]; curr
           className="absolute inset-0 flex items-center justify-center"
         >
           <span className={`text-2xl md:text-3xl font-bold drop-shadow-lg ${
-            template === "vibrant-animated" ? "text-white" :
-            (template === "ai-template-dark" || template === "ai-template-light") ? "text-cyan-400" : "text-orange-400"
+            (template === "ai-template-dark" || template === "ai-template-light") ? "text-cyan-400" : "text-cyan-400"
           }`}>
             {role}
           </span>

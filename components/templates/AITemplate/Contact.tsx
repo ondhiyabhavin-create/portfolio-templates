@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -16,14 +16,19 @@ export function AIContact() {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { currentTemplate } = useTemplate();
   const isBwMode = currentTemplate === "ai-template-light";
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const socialLinks = [
     { icon: Phone, href: `tel:${PERSONAL_INFO.phone}`, label: "Call Me", value: PERSONAL_INFO.phone, color: "from-blue-500 to-cyan-500" },
-    { icon: MapPin, href: "#", label: "Location", value: PERSONAL_INFO.city, color: "from-purple-500 to-pink-500" },
+    { icon: MapPin, href: "https://www.google.com/maps/dir//Surat,+Gujarat/@21.1592002,72.8222859,12z/data=!4m17!1m8!3m7!1s0x3be04e59411d1563:0xfe4558290938b042!2sSurat,+Gujarat!3b1!8m2!3d21.1702401!4d72.8310607!16zL20vMDFoMWhu!4m7!1m0!1m5!1m1!1s0x3be04e59411d1563:0xfe4558290938b042!2m2!1d72.8310607!2d21.1702401?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D", label: "Location", value: PERSONAL_INFO.city, color: "from-purple-500 to-pink-500" },
     { icon: Mail, href: `mailto:${PERSONAL_INFO.email}`, label: "Email", value: PERSONAL_INFO.email, color: "from-orange-500 to-red-500" },
     { icon: Globe, href: PERSONAL_INFO.website, label: "Website", value: "Streamivus", color: "from-green-500 to-emerald-500" },
   ];
@@ -37,50 +42,15 @@ export function AIContact() {
     form.submit();
   };
 
+  function seededRandom(seed: number) {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
   return (
     <section id="contact" ref={ref} className={`relative py-32 overflow-hidden ${isBwMode ? 'bg-white' : ''}`}>
-      {/* Animated Background */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        {!isBwMode && (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-br from-[oklch(0.7_0.2_200)]/5 via-[oklch(0.65_0.25_300)]/3 to-transparent" />
-            {/* Floating particles */}
-            {typeof window !== 'undefined' && [...Array(20)].map((_, i) => {
-              const startX = Math.random() * (window.innerWidth || 1920);
-              const startY = Math.random() * (window.innerHeight || 1080);
-              const endX = Math.random() * (window.innerWidth || 1920);
-              const endY = Math.random() * (window.innerHeight || 1080);
-              return (
-                <motion.div
-                  key={i}
-                  className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-[oklch(0.7_0.2_200)] to-[oklch(0.65_0.25_300)] opacity-30"
-                  initial={{
-                    x: startX,
-                    y: startY,
-                    scale: 0,
-                  }}
-                  animate={{
-                    y: endY,
-                    x: endX,
-                    scale: [0, 1, 0],
-                    opacity: [0, 0.5, 0],
-                  }}
-                  transition={{
-                    duration: Math.random() * 10 + 10,
-                    repeat: Infinity,
-                    delay: Math.random() * 5,
-                  }}
-                />
-              );
-            })}
-          </>
-        )}
-        {isBwMode && (
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50" />
-        )}
-      </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           variants={staggerContainer}
           initial="hidden"

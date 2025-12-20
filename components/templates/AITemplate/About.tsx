@@ -2,17 +2,28 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Code2, Palette, Zap, Sparkles, Heart, Rocket, Coffee, Code, Server, Brain, Cloud, Globe } from "lucide-react";
 import { fadeInUp, slideInLeft, slideInRight, staggerContainer, textReveal } from "@/lib/animations";
 import { PERSONAL_INFO, ABOUT_TEXT } from "@/lib/constants";
 import { useTemplate } from "@/context/TemplateContext";
+
+// Seeded random function for consistent values
+function seededRandom(seed: number) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
 
 export function AIAbout() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { currentTemplate } = useTemplate();
   const isBwMode = currentTemplate === "ai-template-light";
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const techStacks = {
     frontend: {
@@ -63,35 +74,8 @@ export function AIAbout() {
     <section
       id="about"
       ref={ref}
-      className={`relative py-32 overflow-hidden ${isBwMode ? 'bg-gradient-to-b from-blue-50/30 via-white to-purple-50/30' : ''}`}
+      className={`relative py-32 overflow-hidden ${isBwMode ? 'bg-white' : ''}`}
     >
-      {/* Soothing background decoration for light mode */}
-      {isBwMode && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: Math.random() * 200 + 50,
-                height: Math.random() * 200 + 50,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                background: `radial-gradient(circle, rgba(59, 130, 246, ${0.03 + Math.random() * 0.02}) 0%, transparent 70%)`,
-              }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-              }}
-            />
-          ))}
-        </div>
-      )}
 
       <div className="container mx-auto px-6 relative z-10">
         <motion.div

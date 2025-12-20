@@ -5,9 +5,12 @@ import { motion } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
 import { ROLES, PERSONAL_INFO, TAGLINE } from "@/lib/constants";
 import { fadeInUp, textReveal } from "@/lib/animations";
+import { useTemplate } from "@/context/TemplateContext";
 
 export function AIHero() {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const { currentTemplate } = useTemplate();
+  const isBwMode = currentTemplate === "ai-template-light";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,7 +22,9 @@ export function AIHero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[oklch(0.05_0_0)]"
+      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
+        isBwMode ? 'bg-white' : 'bg-[oklch(0.05_0_0)]'
+      }`}
     >
       {/* Animated Background */}
       <div className="absolute inset-0 -z-10">
@@ -58,8 +63,16 @@ export function AIHero() {
             animate="visible"
             className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
           >
-            <span className="block text-white">
-              Hello, I'm <span className="gradient-text">{PERSONAL_INFO.name.split(' ')[0]}</span>
+            <span className={`block ${isBwMode ? '' : 'text-white'}`}>
+              {isBwMode ? (
+                <>
+                  <span className="gradient-text">Hello, I'm</span> <span className="gradient-text">{PERSONAL_INFO.name.split(' ')[0]}</span>
+                </>
+              ) : (
+                <>
+                  Hello, I'm <span className="gradient-text">{PERSONAL_INFO.name.split(' ')[0]}</span>
+                </>
+              )}
             </span>
             <span className="block gradient-text">
               Software Developer
@@ -81,7 +94,9 @@ export function AIHero() {
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
-            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto"
+            className={`text-xl md:text-2xl mb-12 max-w-2xl mx-auto ${
+              isBwMode ? 'text-black/70' : 'text-muted-foreground'
+            }`}
           >
             {TAGLINE}
           </motion.p>

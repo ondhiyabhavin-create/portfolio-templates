@@ -16,20 +16,14 @@ export function Projects() {
   const { currentTemplate } = useTemplate();
 
   const getSectionClass = () => {
-    if (currentTemplate === "brutalist-tech") return "brutalist-tech bg-white";
-    if (currentTemplate === "soft-creative") return "soft-creative";
     return "";
   };
 
   const getTitleClass = () => {
-    if (currentTemplate === "brutalist-tech") return "uppercase text-black font-black";
-    if (currentTemplate === "soft-creative") return "font-light text-[#2d2d2d]";
     return "gradient-text";
   };
 
   const getCardClass = () => {
-    if (currentTemplate === "brutalist-tech") return "brutal-card";
-    if (currentTemplate === "soft-creative") return "soft-card";
     return "glass rounded-2xl";
   };
 
@@ -45,13 +39,9 @@ export function Projects() {
           {/* Section Header */}
           <motion.div variants={fadeInUp} className="text-center mb-16">
             <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${getTitleClass()}`}>
-              {currentTemplate === "brutalist-tech" ? "FEATURED PROJECTS" : "Featured Projects"}
+              Featured Projects
             </h2>
-            <p className={`text-xl max-w-2xl mx-auto ${
-              currentTemplate === "brutalist-tech" ? "text-gray-700 font-mono" :
-              currentTemplate === "soft-creative" ? "text-[#8b7355]" :
-              "text-muted-foreground"
-            }`}>
+            <p className="text-xl max-w-2xl mx-auto text-muted-foreground">
               A selection of my recent work
             </p>
           </motion.div>
