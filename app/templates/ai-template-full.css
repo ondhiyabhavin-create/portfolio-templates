@@ -258,11 +258,29 @@ body.ai-template-bw {
   }
 }
 
-/* B&W Mode - Buttons with gradients */
-.ai-template-bw [class*="bg-gradient-to-r"]:not(.gradient-text) {
+/* B&W Mode - Buttons with gradients (but exclude AI interaction section buttons and links) */
+.ai-template-bw [class*="bg-gradient-to-r"]:not(.gradient-text):not(#ai-interaction button):not(#ai-interaction a) {
   background: linear-gradient(to right, #000000, #333333) !important;
   color: #ffffff !important;
 }
+
+/* Exclude AI interaction section from black gradient rule - allow gradient text and buttons to work properly */
+.ai-template-bw #ai-interaction [class*="bg-gradient-to-r"].bg-clip-text {
+  background: inherit !important;
+  color: inherit !important;
+}
+
+/* Override: Allow AI interaction buttons and links to keep their gradient colors (matching services gradient) */
+.ai-template-bw #ai-interaction button[class*="bg-gradient-to-r"] {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899) !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+.ai-template-bw #ai-interaction a[class*="bg-gradient-to-r"] {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899) !important;
+  color: rgb(255, 255, 255) !important;
+}
+
 
 /* B&W Mode - Ensure buttons with bg-black have white text */
 .ai-template-bw [class*="bg-black"] {
@@ -418,4 +436,13 @@ body.ai-template-bw {
 /* Color mode - Keep logos colored */
 .ai-template-color #skills img {
   filter: none !important;
+}
+
+/* Ensure AI interaction section background is correct in light mode */
+.ai-template-bw #ai-interaction {
+  background: transparent !important;
+}
+
+.ai-template-bw #ai-interaction > * {
+  background: transparent !important;
 }

@@ -61,9 +61,15 @@ export function Experience() {
     return "gradient-text";
   };
 
-  const getCardClass = () => {
+  // Get border color based on index (cycling through service colors)
+  const getBorderColor = (index: number) => {
+    const colors = ['border-blue-100', 'border-purple-100', 'border-cyan-100', 'border-green-100', 'border-orange-100', 'border-pink-100'];
+    return colors[index % colors.length];
+  };
+
+  const getCardClass = (index: number) => {
     if (isBwMode) {
-      return "bg-white/95 rounded-xl";
+      return `bg-white/95 rounded-xl border-2 ${getBorderColor(index)} shadow-lg`;
     }
     return "glass rounded-xl";
   };
@@ -167,9 +173,9 @@ export function Experience() {
 
                     {/* Enhanced Content Card */}
                     <motion.div
-                      className={`${getCardClass()} p-8 md:p-10 cursor-pointer group relative overflow-hidden transition-all ${
+                      className={`${getCardClass(index)} p-8 md:p-10 cursor-pointer group relative overflow-hidden transition-all ${
                         isBwMode
-                          ? "border-2 border-black/10 hover:border-blue-500/30 hover:shadow-xl"
+                          ? `hover:shadow-xl`
                           : "border border-border hover:border-[var(--accent-primary)]/50 hover:shadow-xl hover:shadow-[var(--accent-primary)]/20"
                       }`}
                       onClick={() => setExpandedId(isExpanded ? null : exp.id)}

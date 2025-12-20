@@ -25,10 +25,10 @@ export function AIInteraction() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { currentTemplate } = useTemplate();
+  const isDark = currentTemplate === "ai-template-dark";
   const isBwMode = currentTemplate === "ai-template-light";
 
   useEffect(() => {
-    // Auto-scroll to bottom when new messages arrive
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
@@ -45,7 +45,7 @@ export function AIInteraction() {
             newMessages[messageIndex] = {
               ...newMessages[messageIndex],
               text: text.slice(0, index + 1),
-              isTyping: true, // Keep typing indicator while typing
+              isTyping: true,
             };
           }
           return newMessages;
@@ -53,7 +53,6 @@ export function AIInteraction() {
         index++;
       } else {
         clearInterval(typingInterval);
-        // Mark typing as complete
         setMessages((prev) => {
           const newMessages = [...prev];
           const messageIndex = newMessages.findIndex(m => m.id === messageId);
@@ -69,7 +68,7 @@ export function AIInteraction() {
         setIsTyping(false);
         callback();
       }
-    }, 15); // Typing speed (15ms per character for smooth effect)
+    }, 15);
   };
 
   const fetchAIResponse = async (userMessage: string, conversationHistory: Message[]) => {
@@ -120,7 +119,6 @@ export function AIInteraction() {
     setInput("");
     setIsTyping(true);
 
-    // Add typing indicator
     const typingMessage: Message = {
       id: `typing-${Date.now()}`,
       text: "",
@@ -130,10 +128,8 @@ export function AIInteraction() {
 
     setMessages((prev) => [...prev, typingMessage]);
 
-    // Fetch AI response from Groq API
     const aiResponseData = await fetchAIResponse(userMessage.text, updatedMessages);
 
-    // Update typing message with resume button flag
     setMessages((prev) => {
       const newMessages = [...prev];
       const messageIndex = newMessages.findIndex(m => m.id === typingMessage.id);
@@ -146,10 +142,7 @@ export function AIInteraction() {
       return newMessages;
     });
 
-    // Start typing animation after getting response
-    typeMessage(aiResponseData.message, typingMessage.id, () => {
-      // Animation complete
-    });
+    typeMessage(aiResponseData.message, typingMessage.id, () => {});
   };
 
   const handlePromptClick = async (prompt: typeof AI_PROMPTS[0]) => {
@@ -165,7 +158,6 @@ export function AIInteraction() {
     setMessages(updatedMessages);
     setIsTyping(true);
 
-    // Add typing indicator
     const typingMessage: Message = {
       id: `typing-${Date.now()}`,
       text: "",
@@ -175,10 +167,8 @@ export function AIInteraction() {
 
     setMessages((prev) => [...prev, typingMessage]);
 
-    // Fetch AI response from Groq API
     const aiResponseData = await fetchAIResponse(prompt.text, updatedMessages);
 
-    // Update typing message with resume button flag
     setMessages((prev) => {
       const newMessages = [...prev];
       const messageIndex = newMessages.findIndex(m => m.id === typingMessage.id);
@@ -191,10 +181,7 @@ export function AIInteraction() {
       return newMessages;
     });
 
-    // Start typing animation after getting response
-    typeMessage(aiResponseData.message, typingMessage.id, () => {
-      // Animation complete
-    });
+    typeMessage(aiResponseData.message, typingMessage.id, () => {});
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -211,7 +198,7 @@ export function AIInteraction() {
   };
 
   return (
-    <section id="ai-interaction" ref={ref} className={`relative py-32 overflow-hidden ${isBwMode ? 'bg-white' : ''}`}>
+    <section id="ai-interaction" ref={ref} className="relative py-32 overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
           variants={staggerContainer}
@@ -223,13 +210,17 @@ export function AIInteraction() {
           <motion.div variants={fadeInUp} className="text-center mb-12">
             <motion.h2 
               variants={fadeInUp}
-              className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${isBwMode ? 'text-black' : 'gradient-text'}`}
+              className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${
+                isDark 
+                  ? 'gradient-text' 
+                  : 'gradient-text'
+              }`}
             >
               Ask Me Anything
             </motion.h2>
             <motion.p 
               variants={fadeInUp}
-              className={`text-xl max-w-2xl mx-auto ${isBwMode ? 'text-black/70' : 'text-muted-foreground'}`}
+              className={`text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-700'}`}
             >
               Chat with AI to get instant answers about my experience, skills, and projects
             </motion.p>
@@ -240,49 +231,66 @@ export function AIInteraction() {
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className={`rounded-2xl overflow-hidden flex flex-col h-[600px] ${
-              isBwMode
-                ? 'bg-white border-2 border-gray-200 shadow-lg'
-                : 'glass border border-border'
+            className={`rounded-3xl overflow-hidden flex flex-col h-[600px] shadow-2xl border-2 ${
+              isDark 
+                ? 'bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 backdrop-blur-2xl border-cyan-400/40 shadow-cyan-500/30' 
+                : isBwMode
+                  ? 'bg-white border-purple-100 shadow-lg'
+                  : 'bg-white border-gray-200 shadow-lg'
             }`}
           >
             {/* Chat Header */}
-            <div className={`flex items-center justify-between p-4 border-b ${
-              isBwMode ? 'border-gray-200' : 'border-border'
+            <div className={`flex items-center justify-between p-5 border-b ${
+              isDark 
+                ? 'border-cyan-400/20 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-sm' 
+                : 'border-gray-200 bg-white'
             }`}>
               <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  isBwMode 
-                    ? 'bg-blue-100' 
-                    : 'bg-gradient-to-br from-cyan-400 to-purple-500'
-                }`}>
-                  <Bot className={`w-6 h-6 ${isBwMode ? 'text-blue-600' : 'text-white'}`} />
-                </div>
+                <motion.div 
+                  className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500"
+                  animate={{ 
+                    boxShadow: [
+                      '0 0 20px rgba(59, 130, 246, 0.3)',
+                      '0 0 30px rgba(139, 92, 246, 0.4)',
+                      '0 0 20px rgba(59, 130, 246, 0.3)'
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Bot className="w-6 h-6 text-white" />
+                </motion.div>
                 <div>
-                  <h3 className={`font-semibold ${isBwMode ? 'text-black' : 'text-white'}`}>
+                  <h3 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     AI Assistant
                   </h3>
-                  <p className={`text-xs ${isBwMode ? 'text-black/60' : 'text-muted-foreground'}`}>
-                    {isTyping ? 'Typing...' : 'Online'}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${isTyping ? 'animate-pulse' : ''} ${isDark ? 'bg-cyan-400' : 'bg-cyan-500'}`}></div>
+                    <p className={`text-xs font-medium ${isDark ? 'text-cyan-200' : 'text-gray-600'}`}>
+                      {isTyping ? 'Typing...' : 'Online'}
+                    </p>
+                  </div>
                 </div>
               </div>
               {messages.length > 0 && (
-                <button
-                  onClick={clearChat}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                    isBwMode
-                      ? 'text-black/70 hover:bg-gray-100'
-                      : 'text-muted-foreground hover:bg-white/10'
-                  }`}
-                >
-                  Clear
-                </button>
+                  <button
+                    onClick={clearChat}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      isDark 
+                        ? 'text-white/70 hover:text-white hover:bg-white/10' 
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    Clear
+                  </button>
               )}
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${
+              isDark 
+                ? 'bg-gradient-to-b from-transparent via-cyan-500/5 to-purple-500/5' 
+                : 'bg-white'
+            }`}>
               {messages.length === 0 ? (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -298,14 +306,20 @@ export function AIInteraction() {
                       scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
                       rotate: { duration: 3, repeat: Infinity, ease: "easeInOut" },
                     }}
-                    className={`mb-6 ${isBwMode ? 'text-blue-400' : 'text-cyan-400'}`}
+                    className="mb-6"
                   >
-                    <Bot className="w-16 h-16" />
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl">
+                      <Bot className="w-10 h-10 text-white" />
+                    </div>
                   </motion.div>
-                  <p className={`text-lg mb-2 ${isBwMode ? 'text-black/70' : 'text-muted-foreground'}`}>
+                  <p className={`text-lg mb-2 font-bold ${
+                    isDark 
+                      ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent' 
+                      : 'gradient-text'
+                  }`}>
                     Start a conversation
                   </p>
-                  <p className={`text-sm ${isBwMode ? 'text-black/50' : 'text-muted-foreground/70'}`}>
+                  <p className={`text-sm ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
                     Ask me anything or choose a quick question below
                   </p>
                 </motion.div>
@@ -320,35 +334,32 @@ export function AIInteraction() {
                       className={`flex gap-3 ${message.isUser ? 'justify-end' : 'justify-start'}`}
                     >
                       {!message.isUser && (
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          isBwMode 
-                            ? 'bg-blue-100' 
-                            : 'bg-gradient-to-br from-cyan-400 to-purple-500'
-                        }`}>
-                          <Bot className={`w-4 h-4 ${isBwMode ? 'text-blue-600' : 'text-white'}`} />
-                        </div>
+                        <motion.div 
+                          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500"
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <Bot className="w-5 h-5 text-white" />
+                        </motion.div>
                       )}
-                      <div className={`max-w-[75%] rounded-2xl px-4 py-3 ${
+                      <div className={`max-w-[75%] rounded-2xl px-5 py-4 ${
                         message.isUser
-                          ? isBwMode
-                            ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
-                            : 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30'
-                          : isBwMode
-                          ? 'bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 text-gray-800 shadow-sm'
-                          : 'bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 backdrop-blur-md border border-cyan-400/30 text-white shadow-lg shadow-cyan-500/20'
+                          ? isDark 
+                            ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white shadow-lg'
+                            : 'bg-white border-2 border-gray-200 text-gray-800 shadow-md'
+                          : isDark 
+                            ? 'bg-gradient-to-br from-cyan-500/30 via-purple-500/30 to-pink-500/30 backdrop-blur-xl border border-cyan-400/40 text-white shadow-xl shadow-cyan-500/30'
+                            : 'bg-white border-2 border-gray-200 text-gray-800 shadow-md'
                       }`}>
                         {message.isTyping && !message.text ? (
-                          <div className="flex items-center gap-1">
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                            <span className={`text-sm ${isBwMode ? 'text-black/70' : 'text-white/70'}`}>
+                          <div className="flex items-center gap-2">
+                            <Loader2 className={`w-4 h-4 animate-spin ${isDark ? 'text-white' : 'text-purple-500'}`} />
+                            <span className={`text-sm ${isDark ? 'text-white' : 'text-gray-600'}`}>
                               AI is thinking...
                             </span>
                           </div>
                         ) : (
                           <div className="space-y-3">
-                            <p className={`text-sm leading-relaxed whitespace-pre-wrap ${
-                              message.isUser ? 'text-white' : isBwMode ? 'text-black' : 'text-white'
-                            }`}>
+                            <p className={`text-sm leading-relaxed whitespace-pre-wrap ${isDark ? 'text-white' : ''}`}>
                               {message.text || ''}
                             </p>
                             {message.showResumeButton && !message.isUser && (
@@ -359,11 +370,7 @@ export function AIInteraction() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all shadow-lg ${
-                                  isBwMode
-                                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
-                                    : 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 shadow-purple-500/30'
-                                }`}
+                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-xl"
                               >
                                 <Download className="w-5 h-5" />
                                 <span>Download Resume</span>
@@ -373,13 +380,14 @@ export function AIInteraction() {
                         )}
                       </div>
                       {message.isUser && (
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          isBwMode ? 'bg-gray-200' : 'bg-white/10'
-                        }`}>
-                          <span className={`text-xs font-semibold ${isBwMode ? 'text-black' : 'text-white'}`}>
+                        <motion.div 
+                          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500"
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <span className="text-xs font-bold text-white">
                             You
                           </span>
-                        </div>
+                        </motion.div>
                       )}
                     </motion.div>
                   ))}
@@ -390,8 +398,12 @@ export function AIInteraction() {
 
             {/* Quick Prompts */}
             {messages.length === 0 && (
-              <div className={`px-4 pb-4 border-t ${isBwMode ? 'border-gray-200' : 'border-border'}`}>
-                <p className={`text-xs font-medium mb-3 ${isBwMode ? 'text-black/60' : 'text-muted-foreground'}`}>
+              <div className={`px-4 pb-4 pt-3 border-t ${
+                isDark 
+                  ? 'border-cyan-400/20 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-sm' 
+                  : 'border-gray-200 bg-white'
+              }`}>
+                <p className={`text-xs font-medium mb-3 ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
                   Quick questions:
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -400,12 +412,12 @@ export function AIInteraction() {
                       key={prompt.id}
                       onClick={() => handlePromptClick(prompt)}
                       disabled={isTyping}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                        isBwMode
-                          ? 'bg-gray-100 text-black hover:bg-gray-200 border border-gray-200'
-                          : 'glass border border-border text-white hover:border-[var(--accent-primary)]/50'
+                      className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                        isDark 
+                          ? 'backdrop-blur-sm shadow-md glass border border-cyan-400/30 text-white hover:border-cyan-400/60 hover:bg-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/30' 
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-400 hover:bg-purple-50 shadow-sm hover:shadow-md'
                       }`}
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       {prompt.text}
@@ -416,7 +428,11 @@ export function AIInteraction() {
             )}
 
             {/* Chat Input */}
-            <div className={`p-4 border-t ${isBwMode ? 'border-gray-200' : 'border-border'}`}>
+            <div className={`p-5 border-t ${
+              isDark 
+                ? 'border-cyan-400/20 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-sm' 
+                : 'border-gray-200 bg-white'
+            }`}>
               <div className="flex gap-3">
                 <input
                   ref={inputRef}
@@ -426,35 +442,33 @@ export function AIInteraction() {
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
                   disabled={isTyping}
-                  className={`flex-1 px-4 py-3 rounded-xl text-sm ${
-                    isBwMode
-                      ? "bg-white border-2 border-gray-200 text-black placeholder:text-black/40 focus:border-blue-400"
-                      : "glass border border-border text-white placeholder:text-white/50 focus:border-[var(--accent-primary)]"
-                  } focus:outline-none transition-all disabled:opacity-50`}
+                  className={`flex-1 px-5 py-4 rounded-2xl text-sm font-medium transition-all disabled:opacity-50 ${
+                    isDark 
+                      ? 'backdrop-blur-xl glass border border-cyan-400/30 text-white placeholder:text-white/60 focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/30 shadow-xl shadow-cyan-500/20' 
+                      : 'bg-white border-2 border-gray-200 text-gray-900 placeholder:text-gray-400 focus:border-purple-400 focus:ring-4 focus:ring-purple-100 shadow-sm'
+                  } focus:outline-none`}
                 />
                 <motion.button
                   onClick={handleSend}
                   disabled={!input.trim() || isTyping}
-                  className={`px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all relative overflow-hidden ${
-                    isBwMode
-                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:shadow-purple-500/40"
-                      : "bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/40"
+                  className={`px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all ${
+                    isDark 
+                      ? 'shadow-xl bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-2xl hover:shadow-purple-500/50' 
+                      : 'shadow-lg bg-gradient-to-r from-blue-500 via-purple-400 to-pink-500 text-white hover:shadow-xl hover:shadow-purple-500/30'
                   }`}
-                  whileHover={{ scale: input.trim() && !isTyping ? 1.05 : 1 }}
+                  whileHover={{ 
+                    scale: input.trim() && !isTyping ? 1.05 : 1,
+                    boxShadow: isDark && input.trim() && !isTyping ? "0 20px 40px rgba(139, 92, 246, 0.4)" : undefined
+                  }}
                   whileTap={{ scale: input.trim() && !isTyping ? 0.95 : 1 }}
                 >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className="flex items-center gap-2 text-white">
                     {isTyping ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin text-white" />
                     ) : (
-                      <Send className="w-5 h-5" />
+                      <Send className="w-5 h-5 text-white" />
                     )}
+                    {!isTyping && <span className="hidden sm:inline text-white">Send</span>}
                   </span>
                 </motion.button>
               </div>

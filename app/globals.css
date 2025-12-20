@@ -5,6 +5,7 @@
 @import "./templates/mirror-display.css";
 @import "./templates/brutalist-tech.css";
 @import "./templates/soft-creative.css";
+@import "./templates/contact.css";
 
 @custom-variant dark (&:is(.dark *));
 

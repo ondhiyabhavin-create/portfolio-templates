@@ -14,6 +14,13 @@ export function Projects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { currentTemplate } = useTemplate();
+  const isBwMode = currentTemplate === "ai-template-light";
+
+  // Get border color based on index (cycling through service colors)
+  const getBorderColor = (index: number) => {
+    const colors = ['border-blue-100', 'border-purple-100', 'border-cyan-100', 'border-green-100', 'border-orange-100', 'border-pink-100'];
+    return colors[index % colors.length];
+  };
 
   const getSectionClass = () => {
     return "";
@@ -23,7 +30,10 @@ export function Projects() {
     return "gradient-text";
   };
 
-  const getCardClass = () => {
+  const getCardClass = (index: number) => {
+    if (isBwMode) {
+      return `bg-white/95 rounded-2xl border-2 ${getBorderColor(index)} shadow-lg`;
+    }
     return "glass rounded-2xl";
   };
 
@@ -55,7 +65,7 @@ export function Projects() {
                 className="group relative"
                 whileHover={{ y: -5 }}
               >
-                <div className={`${getCardClass()} overflow-hidden h-full`}>
+                <div className={`${getCardClass(index)} overflow-hidden h-full`}>
                   {/* Project Image Placeholder */}
                   <div className="relative h-64 bg-gradient-to-br from-[var(--accent-primary)]/10 to-[var(--accent-tertiary)]/10 flex items-center justify-center overflow-hidden">
                     <motion.div
