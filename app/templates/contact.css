@@ -107,17 +107,29 @@
 }
 
 /* Light Mode - Form Container with Colored Border (matching services) */
-.ai-template-bw #contact .contact-form-container {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border: 2px solid rgb(219, 234, 254) !important; /* border-blue-100 - matches blue service cards */
-  border-width: 2px !important;
-  border-style: solid !important;
+/* Ensure border colors match services section exactly */
+.ai-template-bw #contact .border-blue-100 {
   border-color: rgb(219, 234, 254) !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
-  padding: 2rem !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.ai-template-bw #contact .border-purple-100 {
+  border-color: rgb(243, 232, 255) !important;
+}
+
+.ai-template-bw #contact .border-cyan-100 {
+  border-color: rgb(207, 250, 254) !important;
+}
+
+.ai-template-bw #contact .border-green-100 {
+  border-color: rgb(220, 252, 231) !important;
+}
+
+.ai-template-bw #contact .border-orange-100 {
+  border-color: rgb(255, 237, 213) !important;
+}
+
+.ai-template-bw #contact .border-pink-100 {
+  border-color: rgb(252, 231, 243) !important;
 }
 
 .ai-template-bw #contact .contact-form-inner {
@@ -155,6 +167,9 @@
   color: rgb(255, 255, 255) !important;
 }
 
+/* Specific class for white UI button */
+.ai-template-bw #contact button.contact-button-bw,
+.ai-template-bw #contact .contact-button-bw,
 .ai-template-bw #contact button.contact-button,
 .ai-template-bw #contact .contact-button,
 .ai-template-bw #contact button[class*="contact-button"],
@@ -168,6 +183,8 @@
   border: none !important;
 }
 
+.ai-template-bw #contact .contact-button-bw:hover,
+.ai-template-bw #contact button.contact-button-bw:hover,
 .ai-template-bw #contact .contact-button:hover,
 .ai-template-bw #contact button.contact-button:hover {
   box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3) !important;
@@ -176,6 +193,8 @@
 }
 
 /* Light Mode - Button Icons and Text */
+.ai-template-bw #contact .contact-button-bw svg,
+.ai-template-bw #contact .contact-button-bw *,
 .ai-template-bw #contact .contact-button svg,
 .ai-template-bw #contact .contact-button * {
   color: rgb(255, 255, 255) !important;
@@ -183,29 +202,13 @@
   stroke: rgb(255, 255, 255) !important;
 }
 
+.ai-template-bw #contact .contact-button-bw span,
 .ai-template-bw #contact .contact-button span {
   color: rgb(255, 255, 255) !important;
 }
 
 /* Light Mode - Social Links Container with Colored Border */
-.ai-template-bw #contact .contact-social-container {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border: 2px solid rgb(243, 232, 255) !important; /* border-purple-100 */
-  border-width: 2px !important;
-  border-style: solid !important;
-  border-color: rgb(243, 232, 255) !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
-  padding: 2rem !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-}
-
-.ai-template-bw #contact .contact-social-inner {
-  background: transparent !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-}
+/* Border colors are handled by Tailwind classes, CSS only ensures they're visible */
 
 .ai-template-bw #contact .contact-social-item {
   background: rgba(255, 255, 255, 0.8) !important;
@@ -229,24 +232,7 @@
 }
 
 /* Light Mode - Availability Container with Colored Border */
-.ai-template-bw #contact .contact-availability-container {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border: 2px solid rgb(207, 250, 254) !important; /* border-cyan-100 */
-  border-width: 2px !important;
-  border-style: solid !important;
-  border-color: rgb(207, 250, 254) !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
-  padding: 2rem !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-}
-
-.ai-template-bw #contact .contact-availability-inner {
-  background: transparent !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-}
+/* Border colors are handled by Tailwind classes, CSS only ensures they're visible */
 
 .ai-template-bw #contact .contact-availability-text {
   color: rgb(75, 85, 99) !important;

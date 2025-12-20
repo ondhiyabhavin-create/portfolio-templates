@@ -3,10 +3,16 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
-import { Send, Bot, Loader2, Sparkles, Download } from "lucide-react";
+import { Send, Bot, Loader2, Sparkles, Download, ExternalLink } from "lucide-react";
 import { AI_PROMPTS, PERSONAL_INFO } from "@/lib/constants";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { useTemplate } from "@/context/TemplateContext";
+import { useMemo } from "react";
+
+interface VisitLink {
+  name: string;
+  url: string;
+}
 
 interface Message {
   id: string;
@@ -14,6 +20,208 @@ interface Message {
   isUser: boolean;
   isTyping?: boolean;
   showResumeButton?: boolean;
+  visitLinks?: VisitLink[];
+}
+
+// Component to render formatted message with markdown-like syntax
+function FormattedMessage({ text, isDark }: { text: string; isDark: boolean }) {
+  const renderFormattedText = useMemo(() => {
+    if (!text) return null;
+
+    // Split by lines to handle line breaks
+    const lines = text.split('\n');
+    const elements: React.ReactNode[] = [];
+
+    lines.forEach((line, lineIndex) => {
+      if (line.trim() === '') {
+        elements.push(<br key={`br-${lineIndex}`} />);
+        return;
+      }
+
+      // Check if it's a bullet point or numbered list
+      const bulletMatch = line.match(/^[\s]*[•\-\*]\s+(.+)$/);
+      const numberMatch = line.match(/^[\s]*(\d+)\.\s+(.+)$/);
+      
+      if (bulletMatch || numberMatch) {
+        const content = bulletMatch ? bulletMatch[1] : numberMatch![2];
+        const number = numberMatch ? numberMatch[1] : null;
+        
+        const lineElements: React.ReactNode[] = [];
+        let currentIndex = 0;
+        
+        // Parse markdown links [text](url) and bold **text**
+        const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+        const boldRegex = /\*\*([^*]+)\*\*/g;
+        
+        let lastIndex = 0;
+        const allMatches: Array<{ type: 'link' | 'bold'; start: number; end: number; content: string; url?: string }> = [];
+        
+        // Find all links
+        let match;
+        while ((match = linkRegex.exec(content)) !== null) {
+          allMatches.push({
+            type: 'link',
+            start: match.index,
+            end: match.index + match[0].length,
+            content: match[1],
+            url: match[2]
+          });
+        }
+        
+        // Find all bold text
+        boldRegex.lastIndex = 0;
+        while ((match = boldRegex.exec(content)) !== null) {
+          allMatches.push({
+            type: 'bold',
+            start: match.index,
+            end: match.index + match[0].length,
+            content: match[1]
+          });
+        }
+        
+        // Sort matches by position
+        allMatches.sort((a, b) => a.start - b.start);
+        
+        // Build elements
+        let textIndex = 0;
+        allMatches.forEach((match, idx) => {
+          // Add text before match
+          if (match.start > textIndex) {
+            const beforeText = content.substring(textIndex, match.start);
+            if (beforeText) {
+              lineElements.push(<span key={`text-${idx}-before`}>{beforeText}</span>);
+            }
+          }
+          
+          // Add match
+          if (match.type === 'link') {
+            lineElements.push(
+              <a
+                key={`link-${idx}`}
+                href={match.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-1 underline decoration-2 underline-offset-2 transition-colors ${
+                  isDark
+                    ? 'text-cyan-300 hover:text-cyan-200 decoration-cyan-400/50 hover:decoration-cyan-400'
+                    : 'text-blue-600 hover:text-blue-700 decoration-blue-400/50 hover:decoration-blue-500'
+                }`}
+              >
+                <span>{match.content}</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            );
+          } else if (match.type === 'bold') {
+            lineElements.push(
+              <strong key={`bold-${idx}`} className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                {match.content}
+              </strong>
+            );
+          }
+          
+          textIndex = match.end;
+        });
+        
+        // Add remaining text
+        if (textIndex < content.length) {
+          lineElements.push(<span key={`text-end`}>{content.substring(textIndex)}</span>);
+        }
+        
+        elements.push(
+          <div key={`line-${lineIndex}`} className="flex gap-2">
+            {number && <span className={`font-semibold ${isDark ? 'text-cyan-300' : 'text-blue-600'}`}>{number}.</span>}
+            {!number && <span className={`${isDark ? 'text-cyan-300' : 'text-blue-600'}`}>•</span>}
+            <span className={`text-sm leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
+              {lineElements.length > 0 ? lineElements : content}
+            </span>
+          </div>
+        );
+      } else {
+        // Regular line - parse markdown
+        const lineElements: React.ReactNode[] = [];
+        let currentIndex = 0;
+        
+        const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+        const boldRegex = /\*\*([^*]+)\*\*/g;
+        
+        const allMatches: Array<{ type: 'link' | 'bold'; start: number; end: number; content: string; url?: string }> = [];
+        
+        let match;
+        while ((match = linkRegex.exec(line)) !== null) {
+          allMatches.push({
+            type: 'link',
+            start: match.index,
+            end: match.index + match[0].length,
+            content: match[1],
+            url: match[2]
+          });
+        }
+        
+        boldRegex.lastIndex = 0;
+        while ((match = boldRegex.exec(line)) !== null) {
+          allMatches.push({
+            type: 'bold',
+            start: match.index,
+            end: match.index + match[0].length,
+            content: match[1]
+          });
+        }
+        
+        allMatches.sort((a, b) => a.start - b.start);
+        
+        let textIndex = 0;
+        allMatches.forEach((match, idx) => {
+          if (match.start > textIndex) {
+            const beforeText = line.substring(textIndex, match.start);
+            if (beforeText) {
+              lineElements.push(<span key={`text-${idx}-before`}>{beforeText}</span>);
+            }
+          }
+          
+          if (match.type === 'link') {
+            lineElements.push(
+              <a
+                key={`link-${idx}`}
+                href={match.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-1 underline decoration-2 underline-offset-2 transition-colors ${
+                  isDark
+                    ? 'text-cyan-300 hover:text-cyan-200 decoration-cyan-400/50 hover:decoration-cyan-400'
+                    : 'text-blue-600 hover:text-blue-700 decoration-blue-400/50 hover:decoration-blue-500'
+                }`}
+              >
+                <span>{match.content}</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            );
+          } else if (match.type === 'bold') {
+            lineElements.push(
+              <strong key={`bold-${idx}`} className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                {match.content}
+              </strong>
+            );
+          }
+          
+          textIndex = match.end;
+        });
+        
+        if (textIndex < line.length) {
+          lineElements.push(<span key={`text-end`}>{line.substring(textIndex)}</span>);
+        }
+        
+        elements.push(
+          <p key={`line-${lineIndex}`} className={`text-sm leading-relaxed ${isDark ? 'text-white' : 'text-gray-800'}`}>
+            {lineElements.length > 0 ? lineElements : line}
+          </p>
+        );
+      }
+    });
+
+    return <div className="space-y-2">{elements}</div>;
+  }, [text, isDark]);
+
+  return renderFormattedText;
 }
 
 export function AIInteraction() {
@@ -21,6 +229,7 @@ export function AIInteraction() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -29,8 +238,14 @@ export function AIInteraction() {
   const isBwMode = currentTemplate === "ai-template-light";
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (messagesEndRef.current && messagesContainerRef.current) {
+      // Only auto-scroll if user is near the bottom
+      const container = messagesContainerRef.current;
+      const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+      
+      if (isNearBottom || messages.length <= 2) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     }
   }, [messages]);
 
@@ -94,13 +309,15 @@ export function AIInteraction() {
       const data = await response.json();
       return {
         message: data.message,
-        showResumeButton: data.showResumeButton || false
+        showResumeButton: data.showResumeButton || false,
+        visitLinks: data.visitLinks || []
       };
     } catch (error) {
       console.error('AI API Error:', error);
       return {
         message: "I'm having trouble right now. Please contact me at bhavinondhiya0@gmail.com or try again later.",
-        showResumeButton: false
+        showResumeButton: false,
+        visitLinks: []
       };
     }
   };
@@ -137,6 +354,7 @@ export function AIInteraction() {
         newMessages[messageIndex] = {
           ...newMessages[messageIndex],
           showResumeButton: aiResponseData.showResumeButton,
+          visitLinks: aiResponseData.visitLinks,
         };
       }
       return newMessages;
@@ -176,6 +394,7 @@ export function AIInteraction() {
         newMessages[messageIndex] = {
           ...newMessages[messageIndex],
           showResumeButton: aiResponseData.showResumeButton,
+          visitLinks: aiResponseData.visitLinks,
         };
       }
       return newMessages;
@@ -286,11 +505,22 @@ export function AIInteraction() {
             </div>
 
             {/* Messages Area */}
-            <div className={`flex-1 overflow-y-auto p-4 space-y-4 ${
-              isDark 
-                ? 'bg-gradient-to-b from-transparent via-cyan-500/5 to-purple-500/5' 
-                : 'bg-white'
-            }`}>
+            <div 
+              ref={messagesContainerRef}
+              data-lenis-prevent
+              className={`flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4 overscroll-contain ${
+                isDark 
+                  ? 'bg-gradient-to-b from-transparent via-cyan-500/5 to-purple-500/5' 
+                  : 'bg-white'
+              }`}
+              style={{
+                scrollBehavior: 'smooth',
+                WebkitOverflowScrolling: 'touch',
+                minHeight: 0,
+                maxHeight: '100%',
+                overscrollBehavior: 'contain',
+              }}
+            >
               {messages.length === 0 ? (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -359,9 +589,37 @@ export function AIInteraction() {
                           </div>
                         ) : (
                           <div className="space-y-3">
-                            <p className={`text-sm leading-relaxed whitespace-pre-wrap ${isDark ? 'text-white' : ''}`}>
-                              {message.text || ''}
-                            </p>
+                            {!message.isUser ? (
+                              <FormattedMessage text={message.text || ''} isDark={isDark} />
+                            ) : (
+                              <p className={`text-sm leading-relaxed whitespace-pre-wrap ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                                {message.text || ''}
+                              </p>
+                            )}
+                            {message.visitLinks && message.visitLinks.length > 0 && !message.isUser && (
+                              <div className="flex flex-wrap gap-2 mt-3">
+                                {message.visitLinks.map((link, index) => (
+                                  <motion.a
+                                    key={index}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-xs transition-all shadow-md text-white hover:shadow-lg ${
+                                      isDark || isBwMode
+                                        ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500'
+                                        : 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+                                    }`}
+                                  >
+                                    <span>Visit</span>
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                  </motion.a>
+                                ))}
+                              </div>
+                            )}
                             {message.showResumeButton && !message.isUser && (
                               <motion.a
                                 href={PERSONAL_INFO.resume}

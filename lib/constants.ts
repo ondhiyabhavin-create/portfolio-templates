@@ -270,7 +270,7 @@ export const PROJECTS: Project[] = [
   {
     id: 3,
     title: "Portfolio Templates",
-    description: "A multi-template portfolio website featuring 6 unique design themes. Built with Next.js, TypeScript, Framer Motion, and Tailwind CSS. Includes AI-enhanced features, template switching, and responsive design across all themes.",
+    description: "A modern portfolio website with white and dark mode themes. Built with Next.js, TypeScript, Framer Motion, and Tailwind CSS. Includes AI-enhanced features, mode switching, and responsive design.",
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "GSAP"],
     image: "https://portfolio-templates-iota.vercel.app/",
     screenshotUrls: [
@@ -281,30 +281,30 @@ export const PROJECTS: Project[] = [
     category: "Personal Project",
     date: "2025",
     details: {
-      overview: "A comprehensive portfolio website with 6 unique templates: AI Template, Warm Professional, Vibrant Animated, Mirror Display, Brutalist Tech, and Soft Creative. Each template has distinct visual identity and interaction patterns.",
+      overview: "A modern portfolio website featuring white and dark mode themes. Built with Next.js, TypeScript, Framer Motion, and Tailwind CSS. Includes AI-enhanced chatbot, smooth mode switching, and fully responsive design.",
       features: [
-        "6 completely unique portfolio templates with different design philosophies",
-        "Template switcher with persistent selection",
-        "AI-enhanced interaction section with predefined prompts",
-        "Smooth animations and transitions using Framer Motion and GSAP",
+        "White and dark mode themes with seamless switching",
+        "AI-powered chatbot assistant with formatted responses",
+        "Mode switcher with persistent selection",
+        "Smooth animations and transitions using Framer Motion",
         "Fully responsive design across all devices",
-        "Black & white mode for AI template",
-        "Advanced mirror effects and scroll-driven animations"
+        "SEO optimized",
+        "Modern UI/UX design"
       ],
-      challenges: "Creating distinct visual identities for each template, managing state across template switches, implementing complex animations while maintaining performance, and ensuring consistent UX across all themes.",
-      impact: "Demonstrates versatility in design and development, showcasing ability to work with different design systems and animation libraries.",
-      architecture: "Modular template system with shared components and template-specific overrides. Context API for global template state management. Each template has its own CSS file and component variants. Animation orchestration using both Framer Motion and GSAP for different use cases.",
-      technologies: ["Next.js 14", "React 18", "TypeScript", "Tailwind CSS", "Framer Motion", "GSAP", "Context API", "Local Storage"],
-      developmentProcess: "Designed each template with unique visual language. Built reusable component system with template variants. Implemented smooth template switching with state persistence. Created comprehensive animation system. Tested each template for performance and accessibility.",
+      challenges: "Implementing smooth mode transitions, managing state across mode switches, ensuring consistent UX across both themes, and maintaining performance with animations.",
+      impact: "Demonstrates modern web development capabilities and AI integration, showcasing ability to build responsive, accessible portfolio websites.",
+      architecture: "Modern Next.js architecture with Context API for global theme state management. Shared components with theme-specific styling. Animation orchestration using Framer Motion. Local storage for persistent theme selection.",
+      technologies: ["Next.js 14", "React 18", "TypeScript", "Tailwind CSS", "Framer Motion", "Context API", "Local Storage", "Groq API"],
+      developmentProcess: "Designed clean and modern UI for both light and dark modes. Built reusable component system with theme variants. Implemented smooth mode switching with state persistence. Created AI chatbot integration. Tested for performance and accessibility.",
       results: [
-        "6 production-ready portfolio templates",
-        "Smooth template switching with zero flicker",
-        "All templates score 90+ on Lighthouse",
+        "Production-ready portfolio with dual themes",
+        "Smooth mode switching with zero flicker",
+        "Scores 90+ on Lighthouse",
         "Fully accessible with keyboard navigation",
         "Mobile-optimized for all screen sizes"
       ],
-      lessonsLearned: "Learned how to create flexible component systems. Discovered the power of CSS custom properties for theming. Realized the importance of performance budgets. Understood how to balance creativity with usability.",
-      futureImprovements: "Plans include adding more templates, implementing template customization options, adding animation presets, creating template marketplace, and adding export functionality."
+      lessonsLearned: "Learned how to create flexible theme systems. Discovered the power of CSS custom properties for theming. Realized the importance of performance budgets. Understood how to balance design with usability.",
+      futureImprovements: "Plans include adding more customization options, implementing additional features, enhancing AI capabilities, and expanding portfolio sections."
     },
   },
   {

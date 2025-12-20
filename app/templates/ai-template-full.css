@@ -258,8 +258,8 @@ body.ai-template-bw {
   }
 }
 
-/* B&W Mode - Buttons with gradients (but exclude AI interaction section buttons and links) */
-.ai-template-bw [class*="bg-gradient-to-r"]:not(.gradient-text):not(#ai-interaction button):not(#ai-interaction a) {
+/* B&W Mode - Buttons with gradients (but exclude AI interaction section buttons and links and contact section) */
+.ai-template-bw [class*="bg-gradient-to-r"]:not(.gradient-text):not(#ai-interaction button):not(#ai-interaction a):not(#contact button):not(#contact [class*="bg-gradient-to-r"]) {
   background: linear-gradient(to right, #000000, #333333) !important;
   color: #ffffff !important;
 }

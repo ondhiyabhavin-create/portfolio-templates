@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { Mail, Send, Phone, MapPin, Globe } from "lucide-react";
 import { PERSONAL_INFO } from "@/lib/constants";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
+import { useTemplate } from "@/context/TemplateContext";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { currentTemplate } = useTemplate();
+  const isBwMode = currentTemplate === "ai-template-light";
 
   const socialLinks = [
     { icon: Phone, href: `tel:${PERSONAL_INFO.phone}`, label: "Call Us On", value: PERSONAL_INFO.phone },
@@ -37,9 +40,11 @@ export function Contact() {
   return (
     <section id="contact" ref={ref} className="relative py-32 overflow-hidden">
       {/* Background Animation - only in dark mode */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/8 via-transparent to-purple-500/8" />
-      </div>
+      {!isBwMode && (
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/8 via-transparent to-purple-500/8" />
+        </div>
+      )}
 
       <div className="container mx-auto px-6">
         <motion.div
@@ -50,22 +55,50 @@ export function Contact() {
         >
           {/* Section Header */}
           <motion.div variants={fadeInUp} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <h2 
+              className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${
+                isBwMode ? "" : "gradient-text"
+              }`}
+              style={isBwMode ? {
+                background: "linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text"
+              } : {}}
+            >
               Get In Touch
             </h2>
-            <p className="text-xl max-w-2xl mx-auto contact-section-subtitle">
+            <p 
+              className={`text-xl max-w-2xl mx-auto ${
+                isBwMode ? "text-gray-600" : "contact-section-subtitle"
+              }`}
+            >
               Let's work together on your next project
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <motion.div variants={fadeInUp} className="contact-form-container">
-              <div className="contact-form-inner">
+            <motion.div 
+              variants={fadeInUp} 
+              className={isBwMode ? "bg-white/95 rounded-2xl border-2 border-blue-100 shadow-lg p-8" : "contact-form-container"}
+              style={isBwMode ? {
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+              } : {}}
+            >
+              <div className={isBwMode ? "" : "contact-form-inner"}>
                 <form action="https://formsubmit.co/bhavinondhiya0@gmail.com" method="POST" onSubmit={handleSubmit} className="space-y-6">
                   <input type="hidden" name="_captcha" value="false" />
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium mb-2 contact-label">
+                    <label 
+                      htmlFor="name" 
+                      className={`block text-sm font-medium mb-2 ${
+                        isBwMode ? "" : "contact-label"
+                      }`}
+                      style={isBwMode ? { color: "rgb(55, 65, 81)" } : {}}
+                    >
                       Name
                     </label>
                     <input
@@ -74,13 +107,26 @@ export function Contact() {
                       name="name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all contact-input"
+                      className={`w-full px-4 py-3 rounded-lg focus:outline-none transition-all ${
+                        isBwMode ? "" : "contact-input"
+                      }`}
+                      style={isBwMode ? {
+                        background: "#ffffff",
+                        border: "1px solid rgb(229, 231, 235)",
+                        color: "rgb(17, 24, 39)"
+                      } : {}}
                       required
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-2 contact-label">
+                    <label 
+                      htmlFor="email" 
+                      className={`block text-sm font-medium mb-2 ${
+                        isBwMode ? "" : "contact-label"
+                      }`}
+                      style={isBwMode ? { color: "rgb(55, 65, 81)" } : {}}
+                    >
                       Email
                     </label>
                     <input
@@ -89,25 +135,51 @@ export function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all contact-input"
+                      className={`w-full px-4 py-3 rounded-lg focus:outline-none transition-all ${
+                        isBwMode ? "" : "contact-input"
+                      }`}
+                      style={isBwMode ? {
+                        background: "#ffffff",
+                        border: "1px solid rgb(229, 231, 235)",
+                        color: "rgb(17, 24, 39)"
+                      } : {}}
                       required
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium mb-2 contact-label">
+                    <label 
+                      htmlFor="subject" 
+                      className={`block text-sm font-medium mb-2 ${
+                        isBwMode ? "" : "contact-label"
+                      }`}
+                      style={isBwMode ? { color: "rgb(55, 65, 81)" } : {}}
+                    >
                       Subject
                     </label>
                     <input
                       type="text"
                       id="subject"
                       name="subject"
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all contact-input"
+                      className={`w-full px-4 py-3 rounded-lg focus:outline-none transition-all ${
+                        isBwMode ? "" : "contact-input"
+                      }`}
+                      style={isBwMode ? {
+                        background: "#ffffff",
+                        border: "1px solid rgb(229, 231, 235)",
+                        color: "rgb(17, 24, 39)"
+                      } : {}}
                       required
                     />
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-2 contact-label">
+                    <label 
+                      htmlFor="message" 
+                      className={`block text-sm font-medium mb-2 ${
+                        isBwMode ? "" : "contact-label"
+                      }`}
+                      style={isBwMode ? { color: "rgb(55, 65, 81)" } : {}}
+                    >
                       Message
                     </label>
                     <textarea
@@ -116,7 +188,14 @@ export function Contact() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       rows={5}
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none resize-none transition-all contact-input"
+                      className={`w-full px-4 py-3 rounded-lg focus:outline-none resize-none transition-all ${
+                        isBwMode ? "" : "contact-input"
+                      }`}
+                      style={isBwMode ? {
+                        background: "#ffffff",
+                        border: "1px solid rgb(229, 231, 235)",
+                        color: "rgb(17, 24, 39)"
+                      } : {}}
                       required
                     />
                   </div>
@@ -124,7 +203,9 @@ export function Contact() {
                   <motion.button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full px-6 py-4 font-semibold rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 transition-all contact-button bg-gradient-to-r from-blue-500 via-purple-400 to-pink-500"
+                    className={`w-full px-6 py-4 font-semibold rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 transition-all ${
+                      isBwMode ? "contact-button-bw" : "contact-button"
+                    }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -133,7 +214,7 @@ export function Contact() {
                     ) : (
                       <>
                         <Send className="w-5 h-5" />
-                        Send Message
+                        <span>Send Message</span>
                       </>
                     )}
                   </motion.button>
@@ -143,21 +224,64 @@ export function Contact() {
 
             {/* Social Links */}
             <motion.div variants={fadeInUp} className="space-y-8">
-              <div className="contact-social-container">
-                <div className="contact-social-inner">
-                  <h3 className="text-2xl font-bold mb-6">Connect With Me</h3>
+              <div 
+                className={isBwMode ? "bg-white/95 rounded-2xl border-2 border-purple-100 shadow-lg p-8" : "contact-social-container"}
+                style={isBwMode ? {
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                } : {}}
+              >
+                <div className={isBwMode ? "" : "contact-social-inner"}>
+                  <h3 
+                    className="text-2xl font-bold mb-6"
+                    style={isBwMode ? {
+                      background: "linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text"
+                    } : {}}
+                  >
+                    Connect With Me
+                  </h3>
                   <div className="space-y-4">
                     {socialLinks.map((social) => (
                       <motion.div
                         key={social.label}
-                        className="flex flex-col gap-2 p-4 rounded-lg transition-all group hover:shadow-lg contact-social-item"
+                        className={`flex flex-col gap-2 p-4 rounded-lg transition-all group hover:shadow-lg ${
+                          isBwMode ? "" : "contact-social-item"
+                        }`}
+                        style={isBwMode ? {
+                          background: "rgba(255, 255, 255, 0.8)",
+                          border: "1px solid rgb(243, 244, 246)"
+                        } : {}}
                         whileHover={{ x: 5 }}
                       >
                         <div className="flex items-center gap-3">
-                          <social.icon className="w-6 h-6 group-hover:scale-110 transition-transform contact-social-icon" />
-                          <span className="font-medium contact-social-text">{social.label}</span>
+                          <social.icon 
+                            className={`w-6 h-6 group-hover:scale-110 transition-transform ${
+                              isBwMode ? "" : "contact-social-icon"
+                            }`}
+                            style={isBwMode ? { color: "rgb(37, 99, 235)" } : {}}
+                          />
+                          <span 
+                            className={`font-medium ${
+                              isBwMode ? "" : "contact-social-text"
+                            }`}
+                            style={isBwMode ? { color: "rgb(17, 24, 39)" } : {}}
+                          >
+                            {social.label}
+                          </span>
                         </div>
-                        <a href={social.href} target={social.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="transition-colors contact-link">
+                        <a 
+                          href={social.href} 
+                          target={social.href.startsWith('http') ? '_blank' : undefined} 
+                          rel="noopener noreferrer" 
+                          className={`transition-colors ${
+                            isBwMode ? "" : "contact-link"
+                          }`}
+                          style={isBwMode ? { color: "rgb(75, 85, 99)" } : {}}
+                        >
                           {social.value}
                         </a>
                       </motion.div>
@@ -166,15 +290,44 @@ export function Contact() {
                 </div>
               </div>
 
-              <div className="contact-availability-container">
-                <div className="contact-availability-inner">
-                  <h3 className="text-xl font-bold mb-4">Availability</h3>
-                  <p className="mb-4 contact-availability-text">
+              <div 
+                className={isBwMode ? "bg-white/95 rounded-2xl border-2 border-cyan-100 shadow-lg p-8" : "contact-availability-container"}
+                style={isBwMode ? {
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                } : {}}
+              >
+                <div className={isBwMode ? "" : "contact-availability-inner"}>
+                  <h3 
+                    className="text-xl font-bold mb-4"
+                    style={isBwMode ? {
+                      background: "linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text"
+                    } : {}}
+                  >
+                    Availability
+                  </h3>
+                  <p 
+                    className={`mb-4 ${
+                      isBwMode ? "" : "contact-availability-text"
+                    }`}
+                    style={isBwMode ? { color: "rgb(75, 85, 99)" } : {}}
+                  >
                     I'm currently available for freelance projects and consulting opportunities.
                   </p>
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-sm contact-availability-status">{PERSONAL_INFO.freelance} for new projects</span>
+                    <span 
+                      className={`text-sm ${
+                        isBwMode ? "" : "contact-availability-status"
+                      }`}
+                      style={isBwMode ? { color: "rgb(31, 41, 55)" } : {}}
+                    >
+                      {PERSONAL_INFO.freelance} for new projects
+                    </span>
                   </div>
                 </div>
               </div>

@@ -255,14 +255,13 @@ const PORTFOLIO_DATA = {
       type: "Personal Project",
       category: "personal",
       year: 2025,
-      description: "A multi-template portfolio website featuring 6 unique design themes. Built with Next.js, TypeScript, Framer Motion, and Tailwind CSS. Includes AI-enhanced features, template switching, and responsive design across all themes.",
+      description: "A modern portfolio website with white and dark mode themes. Built with Next.js, TypeScript, Framer Motion, and Tailwind CSS. Includes AI-enhanced features, mode switching, and responsive design.",
       technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "AI Integration", "Groq API"],
       features: [
-        "6 unique design themes",
+        "White and dark mode themes",
         "AI-powered chatbot assistant",
-        "Seamless template switching",
+        "Seamless mode switching",
         "Fully responsive design",
-        "Dark mode support",
         "Smooth animations",
         "SEO optimized"
       ],
@@ -512,13 +511,34 @@ RESPONSE RULES:
 2. Be specific with numbers, dates, company names, and project links
 3. Speak in first person as ${personalInfo.name}
 4. Keep responses natural and conversational
-5. For greetings, be brief and helpful
-6. When mentioning projects, include links if available (ThinSLICE: https://thinslice-scalecapacity.vercel.app/, Ghost: https://ghost-scalecapacity.vercel.app/, Portfolio: https://portfolio-templates-iota.vercel.app/)
-7. Encourage direct contact (${personalInfo.email}) for detailed discussions
-8. Never make up or assume information not provided
-9. If asked about something not in the data, politely say you don't have that information and suggest contacting directly
-10. When discussing technical skills, organize them by category (Frontend, Backend, AI/ML, Cloud, Databases, Tools)
-11. IMPORTANT: When asked about resume/CV, keep the response brief (1-2 sentences) and mention that the resume is available for download. Do NOT provide detailed resume content or list all experiences/skills. Just say something like "Here's my resume! You can download it below." or "I'd be happy to share my resume. You can download it below."`;
+5. ALWAYS format your responses with proper structure and readability:
+   - Use **bold** for project names, important terms, and key points
+   - Use bullet points (•) for lists - each item on a new line
+   - Use numbered lists (1., 2., 3.) when listing sequential items
+   - Add blank lines between paragraphs and sections for readability
+   - Keep paragraphs concise (2-4 sentences max)
+   - Use proper spacing and line breaks
+6. When mentioning projects:
+   - Format as: **Project Name** - description
+   - For projects with live sites (ThinSLICE, Ghost, Portfolio): include link inline as [Visit](url)
+   - For GitHub projects (DataGrafico, CodeInsights): mention "Visit GitHub repository" 
+   - For blog sites (Blog Byte): mention "Visit blog"
+   - Always provide a brief description after the project name
+7. When listing multiple items (projects, skills, experiences):
+   - Use bullet points (•) with each item on its own line
+   - Add spacing between items for clarity
+   - Use consistent formatting throughout
+8. For technical information:
+   - Organize by category with clear headings or bold labels
+   - Use bullet points for lists within categories
+   - Keep descriptions concise but informative
+9. For greetings: Be brief, friendly, and offer to help
+10. Encourage direct contact (${personalInfo.email}) for detailed discussions
+11. Never make up or assume information not provided
+12. If asked about something not in the data, politely say you don't have that information and suggest contacting directly
+13. When discussing technical skills, organize them by category (Frontend, Backend, AI/ML, Cloud, Databases, Tools) with clear formatting
+14. IMPORTANT: When asked about resume/CV, keep the response brief (1-2 sentences) and mention that the resume is available for download. Do NOT provide detailed resume content or list all experiences/skills. Just say something like "Here's my resume! You can download it below." or "I'd be happy to share my resume. You can download it below."
+15. Always ensure your response is well-formatted, easy to read, with proper spacing, bullet points, and clear structure - similar to how ChatGPT formats responses.`;
 }
 
 export async function POST(request: NextRequest) {
@@ -597,7 +617,7 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json();
-    const aiMessage = data.choices[0]?.message?.content || "I'm having trouble right now. Please contact me at bhavinondhiya0@gmail.com";
+    let aiMessage = data.choices[0]?.message?.content || "I'm having trouble right now. Please contact me at bhavinondhiya0@gmail.com";
 
     // Check if AI response mentions resume
     const aiResumeKeywords = ['resume', 'cv', 'curriculum vitae'];
@@ -605,9 +625,106 @@ export async function POST(request: NextRequest) {
       aiMessage.toLowerCase().includes(keyword)
     );
 
+    // Map of URLs to project names
+    const projects = PORTFOLIO_DATA.projects;
+    const urlToProjectMap: { [key: string]: string } = {};
+    const githubBlogLinks: Array<{ name: string; url: string }> = [];
+    
+    projects.forEach(project => {
+      if (project.link && project.link !== '#' && project.link.startsWith('http')) {
+        urlToProjectMap[project.link] = project.title;
+        
+        // Check if it's a GitHub or blog link (for "Visit" button display)
+        const isGitHub = project.link.includes('github.com');
+        const isBlog = project.link.includes('blogbyte.vercel.app');
+        
+        if (isGitHub || isBlog) {
+          githubBlogLinks.push({
+            name: project.title,
+            url: project.link
+          });
+        }
+      }
+    });
+
+    // Format message: Replace URLs with formatted inline links
+    // For GitHub/blog links, we'll remove them from text and show as buttons
+    Object.entries(urlToProjectMap).forEach(([url, projectName]) => {
+      const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escapedProjectName = projectName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const isGitHub = url.includes('github.com');
+      const isBlog = url.includes('blogbyte.vercel.app');
+      
+      // For GitHub/blog links, remove URL from text (will show as button)
+      if (isGitHub || isBlog) {
+        // Remove patterns like: **Project Name** (url) or Project Name (url)
+        const patterns = [
+          new RegExp(`\\*\\*${escapedProjectName}\\*\\*\\s*\\(${escapedUrl}\\)`, 'g'),
+          new RegExp(`${escapedProjectName}\\s*\\(${escapedUrl}\\)`, 'g'),
+          new RegExp(`\\b${escapedUrl}\\b`, 'g'),
+        ];
+        
+        patterns.forEach(pattern => {
+          if (pattern.source.includes(projectName)) {
+            aiMessage = aiMessage.replace(pattern, `**${projectName}**`);
+          } else {
+            aiMessage = aiMessage.replace(pattern, '');
+          }
+        });
+        
+        // Clean up extra spaces
+        aiMessage = aiMessage.replace(/\s+/g, ' ').replace(/\s*-\s*-/g, ' -').trim();
+      } else {
+        // For other links (live sites), format as inline markdown links
+        const pattern1 = new RegExp(`\\*\\*${escapedProjectName}\\*\\*\\s*\\(${escapedUrl}\\)`, 'g');
+        if (pattern1.test(aiMessage)) {
+          try {
+            const hostname = new URL(url).hostname;
+            aiMessage = aiMessage.replace(pattern1, `**${projectName}** ([Visit](${url}))`);
+          } catch (e) {
+            aiMessage = aiMessage.replace(pattern1, `**${projectName}** ([Visit](${url}))`);
+          }
+        }
+        
+        const pattern2 = new RegExp(`${escapedProjectName}\\s*\\(${escapedUrl}\\)`, 'g');
+        if (pattern2.test(aiMessage)) {
+          try {
+            const hostname = new URL(url).hostname;
+            aiMessage = aiMessage.replace(pattern2, `**${projectName}** ([Visit](${url}))`);
+          } catch (e) {
+            aiMessage = aiMessage.replace(pattern2, `**${projectName}** ([Visit](${url}))`);
+          }
+        }
+        
+        // Standalone URL
+        const pattern3 = new RegExp(`\\b${escapedUrl}\\b`, 'g');
+        if (pattern3.test(aiMessage) && !aiMessage.includes(`[Visit](${url})`)) {
+          aiMessage = aiMessage.replace(pattern3, `[Visit](${url})`);
+        }
+      }
+    });
+
+    // Handle any remaining standalone URLs that weren't project URLs
+    const urlRegex = /(https?:\/\/[^\s\)]+)/g;
+    aiMessage = aiMessage.replace(urlRegex, (url: string) => {
+      // Skip if already formatted as markdown link
+      if (url.includes('[') || url.includes(']')) {
+        return url;
+      }
+      
+      const cleanUrl = url.replace(/[.,;:!?]+$/, '');
+      try {
+        const urlObj = new URL(cleanUrl);
+        return `[${urlObj.hostname}](${cleanUrl})`;
+      } catch {
+        return url;
+      }
+    });
+
     return NextResponse.json({ 
       message: aiMessage,
-      showResumeButton: aiMentionsResume
+      showResumeButton: aiMentionsResume,
+      visitLinks: githubBlogLinks.length > 0 ? githubBlogLinks : undefined
     });
   } catch (error) {
     console.error('Chat API Error:', error);
